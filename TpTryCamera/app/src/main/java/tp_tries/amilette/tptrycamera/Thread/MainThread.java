@@ -131,9 +131,9 @@ public class MainThread extends View implements Runnable {
 
 
         if (droite)
-            xRect +=10;
+            xRect += (x-xRect)/50;
         else
-            xRect -=10;
+            xRect -= (x-xRect)/50*-1;
 
 
         yRect = (int)(a*xRect + b) ;
