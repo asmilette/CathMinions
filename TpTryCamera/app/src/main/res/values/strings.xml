@@ -3,4 +3,10 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string-array name="bg">
+        <item>Maison des Simpson</item>
+        <item>Ciel de E.T</item>
+        <item>Swamp de Shrek</item>
+        <item>Camera</item>
+    </string-array>
 </resources>

@@ -6,6 +6,16 @@
 
     >
 
+    <translate
+        android:duration="2000"
+        android:repeatCount="3"
+        android:repeatMode="reverse"
+        android:toXDelta="1024"
+        android:toYDelta="400" />
+
+<translate
+    />
+
 
 
 
