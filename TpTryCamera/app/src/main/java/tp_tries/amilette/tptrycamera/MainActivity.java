@@ -8,8 +8,10 @@ import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -20,7 +22,7 @@ import android.widget.ImageView;
 import tp_tries.amilette.tptrycamera.Thread.CameraThread;
 import tp_tries.amilette.tptrycamera.Vue.CameraView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GestureDetector.OnGestureListener {
 
     //**********ATTRIBUTS*****************
     private Camera mCamera = null;
@@ -36,17 +38,19 @@ public class MainActivity extends AppCompatActivity {
     ImageView main;
     CameraThread cameraThread;
     FrameLayout fl;
+    GestureDetector gd;
 
     //*****************OnCreate**************
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //THREAD
         ctx = this;
+        gd = new GestureDetector(ctx, this);
+        //THREAD
+
         handler = new Handler();
-        fl = (FrameLayout)findViewById(R.id.camera_view);
+        fl = (FrameLayout) findViewById(R.id.camera_view);
         cameraThread = new CameraThread(ctx, fl, handler);
         handler.post(cameraThread);
 
@@ -57,18 +61,19 @@ public class MainActivity extends AppCompatActivity {
         multi = (AnimationDrawable) min.getBackground();
         multi.start(); // gif
 
-
-        main = (ImageView)findViewById(R.id.img_vac);
+        //******Lancement main
+        main = (ImageView) findViewById(R.id.img_vac);
+        anim = AnimationUtils.loadAnimation(this, R.anim.anim_fire_fox);
 
 
         //****cLICK SUR LA MAIN
         vib = (Vibrator) this.ctx.getSystemService(Context.VIBRATOR_SERVICE);
-        ImageButton imgVac = (ImageButton)findViewById(R.id.img_vac);
+        ImageButton imgVac = (ImageButton) findViewById(R.id.img_vac);
         imgVac.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 vib.vibrate(2000);
-                an
+
 
                 lance.setBackgroundResource(R.drawable.lancement);
                 multi_lancement = (AnimationDrawable) lance.getBackground();
@@ -79,5 +84,44 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        gd.onTouchEvent(ev);
+        int x1 = (int)ev.getX(0);
+        int y1 = (int)ev.getY(0);
+        vib.vibrate(2000);
+        main.layout(x1, y1, x1 + main.getWidth(), y1 + main.getWidth());
 
+        return true;
+    }
+
+    @Override
+    public boolean onDown(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent e) {
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+        return false;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent e) {
+
+    }
+
+    @Override
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        return false;
+    }
 }

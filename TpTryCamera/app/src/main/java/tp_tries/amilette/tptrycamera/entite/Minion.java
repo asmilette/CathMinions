@@ -13,7 +13,7 @@ public class Minion {
 
 
     public Minion (ImageView min_img, R.drawable nomMin){
-    min_img.setBackgroundResource(nomMin);
+    //min_img.setBackgroundResource(nomMin);
     }
 
 
