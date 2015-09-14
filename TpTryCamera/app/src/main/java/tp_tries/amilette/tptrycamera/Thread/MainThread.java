@@ -19,11 +19,11 @@ import tp_tries.amilette.tptrycamera.R;
 /**
  * Created by Anne-Sophie on 2015-09-13.
  */
-public class MainThread extends View implements Runnable{
+public class MainThread extends View implements Runnable {
 
     Context ctx;
     Resources res;
-    Bitmap main ;
+    Bitmap main;
     Bitmap minion;
 
     Paint p;
@@ -31,25 +31,33 @@ public class MainThread extends View implements Runnable{
     int xRect, yRect, wR, hR;
     int xMinion, yMinion;
     int wScreen, hScreen;
-    int stepXMinion, stepYMinion;
+    int stepX, stepY;
     Handler handler;
     Rect rect;
+    int x, y;
+    double a, b;
 
-    public MainThread(Context context, Handler handler){
+    public MainThread(Context context, Handler handler) {
         super(context);
         ctx = context;
         this.handler = handler;
-        p=new Paint(Paint.ANTI_ALIAS_FLAG);
+        p = new Paint(Paint.ANTI_ALIAS_FLAG);
         p.setColor(Color.BLACK);
 
         DisplayMetrics metrics = ctx.getResources().getDisplayMetrics();
         wScreen = metrics.widthPixels;
         hScreen = metrics.heightPixels;
 
-        xMain =xRect= wScreen /2;
-        yMain = yRect = hScreen;
+        xMain = xRect = wScreen / 2;
+        yMain = yRect = hScreen / 2;
         wR = 100;
         hR = 100;
+
+        x = y =0;
+
+        stepX = x - xRect;
+        stepY = y- yRect;
+
 
 
         res = getResources();
@@ -57,7 +65,7 @@ public class MainThread extends View implements Runnable{
         minion = BitmapFactory.decodeResource(res, R.drawable.min1);
 
         rect = new Rect(xRect, yRect, xRect + wR, yRect + hR);
-        stepYMinion = stepXMinion= 10;
+
 
     }
 
@@ -70,6 +78,9 @@ public class MainThread extends View implements Runnable{
     @Override
     protected void onDraw(Canvas canvas) {
         canvas.drawRect(rect, p);
+        int x = xRect- main.getWidth()/2;
+        int y = yRect - main.getHeight()/2;
+        canvas.drawBitmap(main, x, y, p);
     }
 
     @Override
@@ -77,38 +88,67 @@ public class MainThread extends View implements Runnable{
 
         int nbPointeur = event.getPointerCount();
 
-        if (nbPointeur == 1) {
-            int x = (int) event.getX();
-            int y = (int) event.getY();
 
-            if (x > xRect && x < xRect + wR)
-                movRec1(x, y);
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+             x = (int) event.getX();
+            y = (int) event.getY();
+            b = yRect - (((double)y-yRect)/((double)x - xRect))*xRect;
+            a = (((double)y-yRect)/((double)x - xRect));
+
+            handler.post(this);
 
         }
-
-
         return true;
     }
 
+
     public void movRec1(int x, int y) {
 
-        if (x >= xRect && x <= xRect + wR) {
+        stepX = x - xRect;
+        stepY = y- yRect;
 
-            if (y < hR / 2)
-                y = hR / 2;
 
-            if (y > hScreen - hR / 2)
-                y = hScreen - hR / 2;
 
-            rect.set(xRect, yRect, xRect + wR, yRect + hR);
-            invalidate();
+                if (x <= 0 || x + wR >= wScreen)
+                    stepX *= -1;
+
+                if (y <= 0 || y + hR >= hScreen)
+                    stepY *= -1;
+
+                xRect +=stepX;
+                yRect +=stepY;
+
+                rect.set(xRect, yRect, xRect + wR, yRect + hR);
+                invalidate();
+
         }
 
-    }
+
     @Override
     public void run() {
-        Toast.makeText(ctx,"" + xRect + " "+ yRect,Toast.LENGTH_LONG );
-        handler.post(this);
 
-    }
+        boolean droite = xRect < x;
+
+
+        if (droite)
+            xRect +=10;
+        else
+            xRect -=10;
+
+
+        yRect = (int)(a*xRect + b) ;
+
+        rect.set(xRect, yRect, xRect + wR, yRect + hR);
+        invalidate();
+
+        if (droite)
+            if(xRect <= x )
+                handler.postDelayed(this, 30);
+        if(!droite)
+            if(xRect >= x )
+                handler.postDelayed(this, 30);
+
+
+
+            }
 }

@@ -25,7 +25,7 @@ public class HandActivity extends Activity {
         MainThread p = new MainThread(this, handler);
         setContentView(p);
 
-        handler.post(p);
+        //handler.post(p);
 
     }
 

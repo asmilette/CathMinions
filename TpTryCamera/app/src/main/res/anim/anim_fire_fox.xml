@@ -5,17 +5,17 @@
     android:shareInterpolator="true"
 
     >
-<<<<<<< HEAD
+
     <translate
         android:duration="2000"
         android:repeatCount="3"
         android:repeatMode="reverse"
         android:toXDelta="1024"
         android:toYDelta="400" />
-=======
+
 <translate
     />
->>>>>>> 0e8500f043efe33d70ecdf9feb99a9a04d5b5925
+
 
 
 
