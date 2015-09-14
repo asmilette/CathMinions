@@ -127,13 +127,27 @@ public class MainThread extends View implements Runnable {
     @Override
     public void run() {
 
-        boolean droite = xRect < x;
+        Boolean droite = xRect < x;
 
+        int deltax= (x-xRect);
+        int deltay = (y-yRect);
 
-        if (droite)
-            xRect += (x-xRect)/50;
-        else
-            xRect -= (x-xRect)/50*-1;
+        if (deltax == 0){
+
+            if (droite) {
+                xRect += deltay / 20.0;
+            } else {
+                xRect -= deltay / 20.0 * -1;
+            }
+
+        }else {
+
+            if (droite) {
+                xRect += deltax / 20.0;
+            } else {
+                xRect -= deltax / 20.0 * -1;
+            }
+        }
 
 
         yRect = (int)(a*xRect + b) ;
@@ -143,10 +157,10 @@ public class MainThread extends View implements Runnable {
 
         if (droite)
             if(xRect <= x )
-                handler.postDelayed(this, 30);
+                handler.postDelayed(this, 100);
         if(!droite)
             if(xRect >= x )
-                handler.postDelayed(this, 30);
+                handler.postDelayed(this, 100);
 
 
 
