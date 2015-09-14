@@ -13,11 +13,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import tp_tries.amilette.tptrycamera.Thread.CameraThread;
 import tp_tries.amilette.tptrycamera.Vue.CameraView;
@@ -50,9 +54,15 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
         //THREAD
 
         handler = new Handler();
+<<<<<<< HEAD
         fl = (FrameLayout) findViewById(R.id.camera_view);
         cameraThread = new CameraThread(ctx, fl, handler);
         handler.post(cameraThread);
+=======
+        //fl = (FrameLayout)findViewById(R.id.camera_view);
+       // cameraThread = new CameraThread(ctx, fl, handler);
+       // handler.post(cameraThread);
+>>>>>>> 0e8500f043efe33d70ecdf9feb99a9a04d5b5925
 
 
         //*************Min qui bouge********************
@@ -68,20 +78,48 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
 
         //****cLICK SUR LA MAIN
         vib = (Vibrator) this.ctx.getSystemService(Context.VIBRATOR_SERVICE);
+<<<<<<< HEAD
         ImageButton imgVac = (ImageButton) findViewById(R.id.img_vac);
         imgVac.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 vib.vibrate(2000);
 
+=======
+        ImageButton main = (ImageButton)findViewById(R.id.img_vac);
+>>>>>>> 0e8500f043efe33d70ecdf9feb99a9a04d5b5925
 
-                lance.setBackgroundResource(R.drawable.lancement);
-                multi_lancement = (AnimationDrawable) lance.getBackground();
 
-                multi_lancement.start();
-            }
-        });
 
+
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        String msg = null;
+        int x;
+        int y ;
+
+        switch (event.getAction()) {
+
+
+            case MotionEvent.ACTION_DOWN:
+                x = (int) event.getX();
+                y = (int) event.getY();
+
+                Toast.makeText(ctx,  "x: " +x + "y: " + y, Toast.LENGTH_LONG).show();
+                AnimationSet animationSet = new AnimationSet(true);
+
+                TranslateAnimation a = new TranslateAnimation(0,-x,0, -y);
+                a.setDuration(4000);
+                animationSet.addAnimation(a);
+                main.startAnimation(a);
+                main.setVisibility(View.VISIBLE);
+                // main.layout(x, y, x+main.getWidth(), y + main.getHeight());
+                }
+
+
+        return true;
     }
 
     @Override
