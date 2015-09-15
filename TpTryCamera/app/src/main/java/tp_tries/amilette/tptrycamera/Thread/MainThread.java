@@ -77,7 +77,7 @@ public class MainThread extends View implements Runnable {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        canvas.drawRect(rect, p);
+       // canvas.drawRect(rect, p);
         int x = xRect- main.getWidth()/2;
         int y = yRect - main.getHeight()/2;
         canvas.drawBitmap(main, x, y, p);
@@ -143,9 +143,9 @@ public class MainThread extends View implements Runnable {
         }else {
 
             if (droite) {
-                xRect += deltax / 20.0;
+                xRect += deltax / 5.0;
             } else {
-                xRect -= deltax / 20.0 * -1;
+                xRect -= deltax / 5.0 * -1;
             }
         }
 
@@ -157,10 +157,10 @@ public class MainThread extends View implements Runnable {
 
         if (droite)
             if(xRect <= x )
-                handler.postDelayed(this, 100);
+                handler.postDelayed(this, 400);
         if(!droite)
             if(xRect >= x )
-                handler.postDelayed(this, 100);
+                handler.postDelayed(this, 400);
 
 
 
