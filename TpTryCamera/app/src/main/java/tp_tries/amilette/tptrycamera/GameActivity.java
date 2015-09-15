@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import tp_tries.amilette.tptrycamera.Thread.CameraThread;
+import tp_tries.amilette.tptrycamera.Thread.CatchThread;
 import tp_tries.amilette.tptrycamera.Thread.HandThread;
 import tp_tries.amilette.tptrycamera.Thread.MoveMinion;
 import tp_tries.amilette.tptrycamera.entite.Minion;
@@ -62,8 +63,11 @@ public class GameActivity extends Activity  {
         fl = (FrameLayout) findViewById(R.id.camera_view);
         ff = (FrameLayout)findViewById(R.id.frame);
 
-        //*******Thread Call
+        //*******Thread Camera
         cameraThread = new CameraThread(ctx, fl, handler);
+        handler.post(cameraThread);
+
+        //*****Thread Main****
         HandThread p = new HandThread(this, handler);
 
         p.setDestFinale(new OnFinalDestination() {
@@ -71,14 +75,28 @@ public class GameActivity extends Activity  {
             public void ActionPerformed(int x, int y) {
                 //parcour liste minion
                 //pour collision
+
+
+                //si Catch == true
+                    //retirer HandThread p de la view
+                    //Creation objet thread de la CatchThread (catch)
+                    //ff.addView(catch);
+                    // if(catch.getIsTerminer(true)
+                    // retirer catch du view
+                    // remettre p dans view
+
             }
         });
         ff.addView(p);
 
+
+
+
+
         /***** Minion ******/
         initMinions();
 
-        handler.post(cameraThread);
+
 
         //***************MENU******************
         btn_menu = (Button) findViewById(R.id.btn_menu);
