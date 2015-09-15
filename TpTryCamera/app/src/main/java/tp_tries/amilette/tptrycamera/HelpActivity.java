@@ -1,11 +1,13 @@
-package com.example.dtchyman.example;
+package tp_tries.amilette.tptrycamera;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class help extends AppCompatActivity {
+import tp_tries.amilette.tptrycamera.R;
+
+public class HelpActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

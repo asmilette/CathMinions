@@ -19,7 +19,7 @@ import tp_tries.amilette.tptrycamera.R;
 /**
  * Created by Anne-Sophie on 2015-09-13.
  */
-public class MainThread extends View implements Runnable {
+public class HandThread extends View implements Runnable {
 
     Context ctx;
     Resources res;
@@ -37,7 +37,7 @@ public class MainThread extends View implements Runnable {
     int x, y;
     double a, b;
 
-    public MainThread(Context context, Handler handler) {
+    public HandThread(Context context, Handler handler) {
         super(context);
         ctx = context;
         this.handler = handler;

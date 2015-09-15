@@ -1,21 +1,18 @@
-package com.example.dtchyman.example;
+package tp_tries.amilette.tptrycamera;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.os.*;
-import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-import java.lang.Process;
+import tp_tries.amilette.tptrycamera.R;
 
-public class option extends Activity {
+public class OptionActivity extends Activity {
 
     Button couleur;
     Button quitter;

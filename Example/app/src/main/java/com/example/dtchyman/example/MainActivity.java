@@ -33,7 +33,7 @@ public class MainActivity extends Activity {
         bouttonHelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, help.class);
+                Intent intent = new Intent(MainActivity.this, HelpActivity.class);
                 startActivity(intent);
             }
         });
@@ -41,7 +41,7 @@ public class MainActivity extends Activity {
         bouttonOptions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, option.class);
+                Intent intent = new Intent(MainActivity.this, OptionActivity.class);
                 startActivity(intent);
             }
         });
