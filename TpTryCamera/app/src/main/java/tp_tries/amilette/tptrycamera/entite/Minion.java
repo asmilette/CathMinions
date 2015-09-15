@@ -91,4 +91,8 @@ public class Minion extends ImageView {
     public void setIsAlive(boolean isAlive) {
         this.isAlive = isAlive;
     }
+
+    public int getPoints() {
+        return points;
+    }
 }

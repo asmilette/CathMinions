@@ -1,8 +1,10 @@
-package com.example.dpelleti.minionattack;
+package com.example.dpelleti.minionattack.entities;
 
 import android.content.Context;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import com.example.dpelleti.minionattack.R;
 
 import java.util.Random;
 
@@ -89,5 +91,9 @@ public class Minion extends ImageView {
 
     public void setIsAlive(boolean isAlive) {
         this.isAlive = isAlive;
+    }
+
+    public int getPoints() {
+        return points;
     }
 }

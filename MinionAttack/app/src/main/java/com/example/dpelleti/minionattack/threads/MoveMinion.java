@@ -1,7 +1,9 @@
-package com.example.dpelleti.minionattack;
+package com.example.dpelleti.minionattack.threads;
 
 import android.content.Context;
 import android.os.Handler;
+
+import com.example.dpelleti.minionattack.entities.Minion;
 
 import java.util.ArrayList;
 
