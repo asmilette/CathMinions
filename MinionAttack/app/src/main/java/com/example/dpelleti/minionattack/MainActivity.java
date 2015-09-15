@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,9 +29,16 @@ public class MainActivity extends AppCompatActivity {
                 handler.dispatchMessage(message);
             }
         });*/
-        minions.add(new Minion(this, handler, main_layout, 1));
-        //minions.add(new Minion(this, handler, main_layout, 2));
-        //minions.add(new Minion(this, handler, main_layout, 5));
+        Random rand = new Random();
+        minions.add(new Minion(this, rand, 1));
+        minions.add(new Minion(this, rand, 2));
+        minions.add(new Minion(this, rand, 5));
+
+        for(Minion m : minions)
+            main_layout.addView(m);
+
+        MoveMinion moveMinion = new MoveMinion(this, handler, minions);
+        handler.post(moveMinion);
     }
 
     @Override
