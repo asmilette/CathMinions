@@ -15,6 +15,7 @@ public class MoveMinion implements Runnable {
     Handler handler;
     ArrayList<Minion> minions;
     int screenWidth, screenHeight;
+    boolean isAlive = true;
 
     public MoveMinion(Context ctx, Handler handler, ArrayList<Minion> minions) {
         this.ctx = ctx;
@@ -32,6 +33,17 @@ public class MoveMinion implements Runnable {
                 minion.move();
         }
 
-        handler.postDelayed(this, 15);
+        if(isAlive)
+            handler.postDelayed(this, 15);
+    }
+
+    public boolean isAlive() {
+        return isAlive;
+    }
+
+    public void setIsAlive(boolean isAlive) {
+        this.isAlive = isAlive;
+        if(isAlive)
+            handler.post(this);
     }
 }

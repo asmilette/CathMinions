@@ -6,16 +6,20 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.os.Handler;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import tp_tries.amilette.tptrycamera.R;
+import java.util.ArrayList;
+import java.util.Random;
+
 import tp_tries.amilette.tptrycamera.Thread.CameraThread;
 import tp_tries.amilette.tptrycamera.Thread.HandThread;
+import tp_tries.amilette.tptrycamera.Thread.MoveMinion;
+import tp_tries.amilette.tptrycamera.entite.Minion;
 import tp_tries.amilette.tptrycamera.entite.OnFinalDestination;
 
 public class GameActivity extends Activity  {
@@ -23,7 +27,7 @@ public class GameActivity extends Activity  {
     //**********ATTRIBUTS*****************
 
     Context ctx;
-    Handler handler;
+    Handler handler, handlerMoveMinion;
 
     CameraThread cameraThread;
 
@@ -36,6 +40,13 @@ public class GameActivity extends Activity  {
 
     ImageView img_bg;
 
+    //Utilisé poru les Minions
+    ArrayList<Minion> minions;
+    //utilisé pour la génération aléatoire de nombres
+    //Exemple: Uitlisé pour la génération des coordonées de départ des minions
+    Random rand;
+    MoveMinion moveMinion;
+
 
 
     //*****************OnCreate**************
@@ -45,12 +56,11 @@ public class GameActivity extends Activity  {
         setContentView(R.layout.activity_hand);
         ctx = this;
         //THREAD
-
         handler = new Handler();
 
         //*****Layout Call
         fl = (FrameLayout) findViewById(R.id.camera_view);
-        ff=(FrameLayout)findViewById(R.id.frame);
+        ff = (FrameLayout)findViewById(R.id.frame);
 
         //*******Thread Call
         cameraThread = new CameraThread(ctx, fl, handler);
@@ -65,6 +75,9 @@ public class GameActivity extends Activity  {
         });
         ff.addView(p);
 
+        /***** Minion ******/
+        initMinions();
+
         handler.post(cameraThread);
 
         //***************MENU******************
@@ -78,7 +91,6 @@ public class GameActivity extends Activity  {
 
             }
         });
-
 
 
         //*****************BACKGROUND CHANGE**********
@@ -125,17 +137,34 @@ public class GameActivity extends Activity  {
                 alert.show();
             }
         });
-
-
-
-
-
-
-
-
-
     }
 
+    private void initMinions() {
+        minions = new ArrayList<>();
+        rand = new Random();
 
+        minions.add(new Minion(ctx, rand, 1));
+        minions.add(new Minion(ctx, rand, 2));
+        minions.add(new Minion(ctx, rand, 5));
+
+        for(Minion m : minions)
+            ff.addView(m);
+
+        handlerMoveMinion = new Handler();
+
+        moveMinion = new MoveMinion(this, handler, minions);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        moveMinion.setIsAlive(false);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        moveMinion.setIsAlive(true);
+    }
 }
 
