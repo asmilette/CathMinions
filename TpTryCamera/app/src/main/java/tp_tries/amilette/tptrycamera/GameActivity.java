@@ -67,6 +67,9 @@ public class GameActivity extends Activity  {
         cameraThread = new CameraThread(ctx, fl, handler);
         handler.post(cameraThread);
 
+        /***** Minion ******/
+        initMinions();
+
         //*****Thread Main****
         HandThread p = new HandThread(this, handler);
 
@@ -78,12 +81,12 @@ public class GameActivity extends Activity  {
 
 
                 //si Catch == true
-                    //retirer HandThread p de la view
-                    //Creation objet thread de la CatchThread (catch)
-                    //ff.addView(catch);
-                    // if(catch.getIsTerminer(true)
-                    // retirer catch du view
-                    // remettre p dans view
+                //retirer HandThread p de la view
+                //Creation objet thread de la CatchThread (catch)
+                //ff.addView(catch);
+                // if(catch.getIsTerminer(true)
+                // retirer catch du view
+                // remettre p dans view
 
             }
         });
@@ -93,8 +96,7 @@ public class GameActivity extends Activity  {
 
 
 
-        /***** Minion ******/
-        initMinions();
+
 
 
 
