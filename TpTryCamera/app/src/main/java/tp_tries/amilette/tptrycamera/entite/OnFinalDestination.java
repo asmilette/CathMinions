@@ -8,13 +8,10 @@ import tp_tries.amilette.tptrycamera.R;
 /**
  * Created by amilette on 2015-09-11.
  */
-public class Minion {
+public interface OnFinalDestination {
 
 
 
-    public Minion (ImageView min_img, R.drawable nomMin){
-    //min_img.setBackgroundResource(nomMin);
-    }
-
+    public void ActionPerformed(int x, int y);
 
 }

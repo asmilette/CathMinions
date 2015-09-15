@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import tp_tries.amilette.tptrycamera.R;
+import tp_tries.amilette.tptrycamera.entite.OnFinalDestination;
 
 /**
  * Created by Anne-Sophie on 2015-09-13.
@@ -36,6 +37,9 @@ public class HandThread extends View implements Runnable {
     Rect rect;
     int x, y;
     double a, b;
+    Boolean terminer;
+
+    OnFinalDestination destFinale;
 
     public HandThread(Context context, Handler handler) {
         super(context);
@@ -95,6 +99,7 @@ public class HandThread extends View implements Runnable {
             b = yRect - (((double)y-yRect)/((double)x - xRect))*xRect;
             a = (((double)y-yRect)/((double)x - xRect));
 
+            terminer = false;
             handler.post(this);
 
         }
@@ -129,15 +134,16 @@ public class HandThread extends View implements Runnable {
 
         Boolean droite = xRect < x;
 
+
         int deltax= (x-xRect);
         int deltay = (y-yRect);
 
         if (deltax == 0){
 
             if (droite) {
-                xRect += deltay / 20.0;
+                xRect += deltay / 5.0;
             } else {
-                xRect -= deltay / 20.0 * -1;
+                xRect -= deltay / 5.0 * -1;
             }
 
         }else {
@@ -155,14 +161,29 @@ public class HandThread extends View implements Runnable {
         rect.set(xRect, yRect, xRect + wR, yRect + hR);
         invalidate();
 
-        if (droite)
-            if(xRect <= x )
+        if (droite) {
+            if (xRect <= x) {
                 handler.postDelayed(this, 400);
-        if(!droite)
-            if(xRect >= x )
-                handler.postDelayed(this, 400);
-
-
-
+            } else {
+                terminer = true;
             }
+        }
+
+        if(!droite) {
+            if (xRect >= x) {
+                handler.postDelayed(this, 400);
+            } else {
+                terminer = true;
+            }
+        }
+
+        if(terminer){
+            destFinale.ActionPerformed(x,y);
+        }
+
+    }
+
+    public void setDestFinale(OnFinalDestination dest){
+        destFinale = dest;
+    }
 }

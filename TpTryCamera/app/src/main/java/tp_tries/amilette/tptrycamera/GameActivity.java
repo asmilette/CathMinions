@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import tp_tries.amilette.tptrycamera.R;
 import tp_tries.amilette.tptrycamera.Thread.CameraThread;
 import tp_tries.amilette.tptrycamera.Thread.HandThread;
+import tp_tries.amilette.tptrycamera.entite.OnFinalDestination;
 
 public class GameActivity extends Activity  {
 
@@ -54,6 +55,14 @@ public class GameActivity extends Activity  {
         //*******Thread Call
         cameraThread = new CameraThread(ctx, fl, handler);
         HandThread p = new HandThread(this, handler);
+
+        p.setDestFinale(new OnFinalDestination() {
+            @Override
+            public void ActionPerformed(int x, int y) {
+                //parcour liste minion
+                //pour collision
+            }
+        });
         ff.addView(p);
 
         handler.post(cameraThread);

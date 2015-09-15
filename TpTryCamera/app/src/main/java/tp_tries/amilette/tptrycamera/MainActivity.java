@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import tp_tries.amilette.tptrycamera.services.MyService;
+
 public class MainActivity extends Activity {
 
 
@@ -14,6 +16,8 @@ public class MainActivity extends Activity {
     Button bouttonScore;
     Button bouttonQuitter;
     Button bouttonOptions;
+
+    Intent demarreService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,11 +31,18 @@ public class MainActivity extends Activity {
         bouttonOptions = (Button) findViewById(R.id.options);
         bouttonQuitter = (Button) findViewById(R.id.sortir);
 
+        //********Service music ouverture*******
+        demarreService = new Intent(MainActivity.this, MyService.class);
+        startService(demarreService);
+
+
+        //*********On click des boutons*********
         boutonJouer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, GameActivity.class);
                 startActivity(intent);
+
             }
         });
 
