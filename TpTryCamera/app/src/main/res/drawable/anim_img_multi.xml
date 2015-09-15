@@ -5,69 +5,6 @@
     <item
         android:drawable="@drawable/min1"
         android:duration="100" />
-    <item
-        android:drawable="@drawable/min2"
-        android:duration="100" />
-    <item
-        android:drawable="@drawable/min3"
-        android:duration="100" />
-    <item
-        android:drawable="@drawable/min4"
-        android:duration="100" />
-    <item
-        android:drawable="@drawable/min5"
-        android:duration="100" />
-    <item
-        android:drawable="@drawable/min6"
-        android:duration="100" />
-    <item
-        android:drawable="@drawable/min7"
-        android:duration="100" />
-    <item
-        android:drawable="@drawable/min8"
-        android:duration="100" />
-    <item
-        android:drawable="@drawable/min9"
-        android:duration="100" />
-    <item
-        android:drawable="@drawable/min10"
-        android:duration="100" />
-    <item
-        android:drawable="@drawable/min11"
-        android:duration="100" />
-    <item
-        android:drawable="@drawable/min12"
-        android:duration="100" />
-    <item
-        android:drawable="@drawable/min13"
-        android:duration="100" />
-    <item
-        android:drawable="@drawable/min14"
-        android:duration="100" />
-    <item
-        android:drawable="@drawable/min15"
-        android:duration="100" />
-    <item
-        android:drawable="@drawable/min16"
-        android:duration="100" />
-    <item
-        android:drawable="@drawable/min17"
-        android:duration="100" />
-    <item
-        android:drawable="@drawable/min18"
-        android:duration="100" />
-    <item
-        android:drawable="@drawable/min19"
-        android:duration="100" />
-    <item
-        android:drawable="@drawable/min20"
-        android:duration="100" />
-    <item
-        android:drawable="@drawable/min21"
-        android:duration="100" />
-    <item
-        android:drawable="@drawable/min22"
-        android:duration="100" />
 
 
 </animation-list>
