@@ -46,7 +46,9 @@ public class GameActivity extends Activity  {
     //utilisé pour la génération aléatoire de nombres
     //Exemple: Uitlisé pour la génération des coordonées de départ des minions
     Random rand;
+
     MoveMinion moveMinion;
+    HandThread p;
 
 
 
@@ -71,22 +73,55 @@ public class GameActivity extends Activity  {
         initMinions();
 
         //*****Thread Main****
-        HandThread p = new HandThread(this, handler);
+        p = new HandThread(this, handler);
 
         p.setDestFinale(new OnFinalDestination() {
             @Override
             public void ActionPerformed(int x, int y) {
-                //parcour liste minion
-                //pour collision
+                //parcour liste minioncollision
+                //pour
+                //System.out.println("Coucou");
+                int i = 0;
+                for(Minion minion : minions) {
+                    i++;
+                    //Log.v("Minions", "--------------------------------------------");
+                    /*String str = String.format("No. %1$d,  X: %2$d, Y: %3$d, Width: %4$d, Height: %5$d"
+                            ,i
+                            ,minion.getLeft()
+                            ,minion.getTop()
+                            ,minion.getWidth()
+                            ,minion.getHeight());
+                    Log.v("Minions", "minion"+str);
+                    String str2 = String.format("X: %1$d, Y: %2$d", x, y);
+                    Log.v("Minions", "Main"+str2);*/
+
+                    if(minion.isAlive() && x >= minion.getLeft()
+                            && x < minion.getWidth() + minion.getLeft()
+                            && y >= minion.getTop()
+                            && y < minion.getTop()+minion.getHeight()){
+                        //Log.v("Minions", "Minions attrape");
+                        minion.setIsAlive(false);
+
+                        //Creation objet thread de la CatchThread (catch)
+                        CatchThread c = new CatchThread(ctx, x, y, handler);
+                        if(!c.getIsTerminer()){
+                            //retirer HandThread p de la view
+                            ff.removeView(p);
+                            //ff.addView(catch);
+                            ff.addView(c);
+                        }
+                        else{
+                            // retirer catch du view
+                            ff.removeView(c);
+                            // remettre p dans view
+                            ff.addView(p);
+                        }
+                    }
+
+                }
 
 
-                //si Catch == true
-                //retirer HandThread p de la view
-                //Creation objet thread de la CatchThread (catch)
-                //ff.addView(catch);
                 // if(catch.getIsTerminer(true)
-                // retirer catch du view
-                // remettre p dans view
 
             }
         });
