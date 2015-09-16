@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -20,6 +21,7 @@ import java.util.Random;
 import tp_tries.amilette.tptrycamera.Thread.CameraThread;
 import tp_tries.amilette.tptrycamera.Thread.CatchThread;
 import tp_tries.amilette.tptrycamera.Thread.HandThread;
+import tp_tries.amilette.tptrycamera.Thread.MinionsPrison;
 import tp_tries.amilette.tptrycamera.Thread.MoveMinion;
 import tp_tries.amilette.tptrycamera.entite.HighScore;
 import tp_tries.amilette.tptrycamera.entite.HighScoreDialog;
@@ -38,6 +40,7 @@ public class GameActivity extends Activity  {
 
     private FrameLayout fl;
     private FrameLayout ff;
+    private FrameLayout prison;
 
     private Button btn_bg;
     private Button btn_quit;
@@ -68,6 +71,7 @@ public class GameActivity extends Activity  {
 
     private MoveMinion moveMinion;
     private HandThread p;
+    //private MinionsPrison m;
 
     //*****************OnCreate**************
     @Override
@@ -81,6 +85,8 @@ public class GameActivity extends Activity  {
         //*****Layout Call
         fl = (FrameLayout) findViewById(R.id.camera_view);
         ff = (FrameLayout)findViewById(R.id.frame);
+        prison = (FrameLayout) findViewById(R.id.prison);
+
 
         //*******Thread Camera
         cameraThread = new CameraThread(ctx, fl, handler);
@@ -95,6 +101,8 @@ public class GameActivity extends Activity  {
         //*****Thread Main****
         p = new HandThread(this, handler);
         ff.addView(p);
+
+        //m = new MinionsPrison(ctx, handler, minions);
 
         //TODO Il faut désactivé la main, lorsque le jeu est terminé
         p.setDestFinale(new OnFinalDestination() {
@@ -133,11 +141,16 @@ public class GameActivity extends Activity  {
                         handlerCatch = handler;
 
                         if (!c.getIsTerminer()) {
+                            Log.d("collision", "attraper");
                             p.setVisibility(View.INVISIBLE);
                             //ff.addView(catch);
                             ff.addView(c);
+                            //ff.addView(m);
+                            prison.addView(new MinionsPrison(ctx, handler, minions));
                             handler.post(c);
+
                             catchTerminier = true;
+
                         }
 
                         if(catchTerminier = true ){
