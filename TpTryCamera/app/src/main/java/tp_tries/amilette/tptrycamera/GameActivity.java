@@ -58,6 +58,7 @@ public class GameActivity extends Activity  {
 
     private Handler handlerCatch;
     private CatchThread c;
+    private Boolean catchActiver;
     private Boolean catchTerminier;
 
     //TODO Supprimer cette variable temporaire
@@ -89,9 +90,11 @@ public class GameActivity extends Activity  {
         initMinions();
 
         //***Boolean
+        catchActiver = false;
         catchTerminier = false;
         //*****Thread Main****
         p = new HandThread(this, handler);
+        ff.addView(p);
 
         //TODO Il faut désactivé la main, lorsque le jeu est terminé
         p.setDestFinale(new OnFinalDestination() {
@@ -101,7 +104,7 @@ public class GameActivity extends Activity  {
                 //pour
                 //System.out.println("Coucou");
                 int i = 0;
-                for(Minion minion : minions) {
+                for (Minion minion : minions) {
                     i++;
                     //Log.v("Minions", "--------------------------------------------");
                     /*String str = String.format("No. %1$d,  X: %2$d, Y: %3$d, Width: %4$d, Height: %5$d"
@@ -114,10 +117,11 @@ public class GameActivity extends Activity  {
                     String str2 = String.format("X: %1$d, Y: %2$d", x, y);
                     Log.v("Minions", "Main"+str2);*/
 
-                    if(minion.isAlive() && x >= minion.getLeft()
+                    if (minion.isAlive() && x >= minion.getLeft()
                             && x < minion.getWidth() + minion.getLeft()
                             && y >= minion.getTop()
-                            && y < minion.getTop()+minion.getHeight()){
+                            && y < minion.getTop() + minion.getHeight()) {
+                        catchActiver = true;
                         //Log.v("Minions", "Minions attrape");
                         minion.setIsAlive(false);
                         qtyMinions--;
@@ -125,15 +129,21 @@ public class GameActivity extends Activity  {
 
 
                         //Creation objet thread de la CatchThread (catch)
-                         c = new CatchThread(ctx, x, y, handler);
+                        c = new CatchThread(ctx, x, y, handler);
                         handlerCatch = handler;
-                        handler.post(c);
 
-                        if(!c.getIsTerminer()){
-                            ff.removeView(p);
+                        if (!c.getIsTerminer()) {
+                            p.setVisibility(View.INVISIBLE);
                             //ff.addView(catch);
-                            ff.addView(c);}
-                        catchTerminier = true;
+                            ff.addView(c);
+                            handler.post(c);
+                            catchTerminier = true;
+                        }
+
+                        if(catchTerminier = true ){
+                                p.setVisibility(View.VISIBLE);
+                        }
+
                     }
 
                   /*  if(catchTerminier = true && c.getIsTerminer()){
@@ -146,14 +156,15 @@ public class GameActivity extends Activity  {
                 }
 
 
-                // if(catch.getIsTerminer(true)
-                if(qtyMinions == 0 && !isGameOver) {
+                if (qtyMinions == 0 && !isGameOver) {
                     isGameOver = true;
                     gameOver(true);
                 }
+
+
             }
         });
-        ff.addView(p);
+
 
 
 
