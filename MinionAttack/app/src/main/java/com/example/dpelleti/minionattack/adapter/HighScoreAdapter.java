@@ -36,7 +36,7 @@ public class HighScoreAdapter extends ArrayAdapter<HighScore> {
             convertView = li.inflate(resource, null);
         }
 
-        ((TextView)convertView.findViewById(R.id.tv_score)).setText(highScore.getScore());
+        ((TextView)convertView.findViewById(R.id.tv_score)).setText(String.valueOf(highScore.getScore()));
         ((TextView)convertView.findViewById(R.id.tv_name)).setText(highScore.getName());
 
         return convertView;

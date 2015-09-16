@@ -15,13 +15,25 @@ import com.example.dpelleti.minionattack.R;
  * Created by dpelleti on 2015-09-15.
  */
 public class HighScoreDialog extends Dialog {
-    Context ctx;
-    HighScore highScore = null;
-    EditText ed_highScore_dialog_name;
 
-    public HighScoreDialog(Context ctx, final int score) {
+    public interface PositiveListener{
+        void onPositiveClick(String name);
+    }
+
+    public interface NegativeListener {
+        void onNegativeClick();
+    }
+
+    private Context ctx;
+    private EditText ed_highScore_dialog_name;
+    private PositiveListener positiveListener;
+    private NegativeListener negativeListener;
+    private Dialog me;
+
+    public HighScoreDialog(Context ctx, int score) {
         super(ctx);
         this.ctx = ctx;
+        me = this;
 
         LayoutInflater li = LayoutInflater.from(ctx);
         LinearLayout ll = (LinearLayout)li.inflate(R.layout.high_score_dialog, null);
@@ -31,12 +43,14 @@ public class HighScoreDialog extends Dialog {
         setTitle(R.string.addHighScore);
 
         ((TextView)ll.findViewById(R.id.tv_highScore_dialog_score)).setText(String.valueOf(score));
+
         ed_highScore_dialog_name = (EditText)ll.findViewById(R.id.ed_highScore_dialog_name);
 
         ((Button)ll.findViewById(R.id.btn_highScore_dialog_ok)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                highScore = new HighScore(score, ed_highScore_dialog_name.getText().toString());
+                if(positiveListener != null)
+                    positiveListener.onPositiveClick(ed_highScore_dialog_name.getText().toString());
                 dismiss();
             }
         });
@@ -44,12 +58,18 @@ public class HighScoreDialog extends Dialog {
         ((Button)ll.findViewById(R.id.btn_highScore_dialog_cancel)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(negativeListener != null)
+                    negativeListener.onNegativeClick();
                 dismiss();
             }
         });
     }
 
-    public HighScore getHighScore() {
-        return highScore;
+    public void setPositiveListener(PositiveListener positiveListener) {
+        this.positiveListener = positiveListener;
+    }
+
+    public void setNegativeListener(NegativeListener negativeListener) {
+        this.negativeListener = negativeListener;
     }
 }

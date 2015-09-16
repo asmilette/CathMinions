@@ -1,10 +1,11 @@
 package com.example.dpelleti.minionattack;
 
 import android.content.Context;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
@@ -12,9 +13,11 @@ import android.widget.FrameLayout;
 import com.example.dpelleti.minionattack.entities.HighScore;
 import com.example.dpelleti.minionattack.entities.HighScoreDialog;
 import com.example.dpelleti.minionattack.entities.Minion;
+import com.example.dpelleti.minionattack.managers.HighScoreManager;
 import com.example.dpelleti.minionattack.threads.MoveMinion;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,7 +26,10 @@ public class MainActivity extends AppCompatActivity {
     FrameLayout main_layout;
     Handler handler;
     Context ctx;
-    HighScore highScore;
+    HighScore highScoreToRegister;
+    List<HighScore> highscores;
+    Random rand;
+    private final int MAX_REGISTED_HIGHSCORE = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,15 +38,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         main_layout = (FrameLayout)findViewById(R.id.main_layout);
         handler = new Handler();
-       /* ((Button)findViewById(R.id.btn_pause)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Message message = handler.obtainMessage();
-                message.obj = new String("KILL");
-                handler.dispatchMessage(message);
-            }
-        });*/
-        Random rand = new Random();
+
+        rand = new Random();
         minions.add(new Minion(this, rand, 1));
         minions.add(new Minion(this, rand, 2));
         minions.add(new Minion(this, rand, 5));
@@ -50,18 +49,26 @@ public class MainActivity extends AppCompatActivity {
 
         MoveMinion moveMinion = new MoveMinion(this, handler, minions);
         handler.post(moveMinion);
+        gameOver();
 
-        int score = rand.nextInt(100);
-        HighScoreDialog dialog = new HighScoreDialog(ctx, score);
+    }
 
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                highScore = ((HighScoreDialog) dialog).getHighScore();
-                System.out.println(highScore.toString());
-            }
-        });
-        dialog.show();
+    private void gameOver() {
+        //Gère l'ajout et la mise à jour de la BD pour les scores
+        gestionHighScore();
+    }
+
+    private void addScoreToHighScore() {
+        System.out.println(highScoreToRegister.toString());
+        try {
+            if(highScoreToRegister.getId() == -1)
+                HighScoreManager.add(ctx, highScoreToRegister);
+            else
+                HighScoreManager.update(ctx, highScoreToRegister);
+        }
+        catch(NullPointerException e) {
+            Log.e("Exception", "HighscoreToRegister est null (dans la méthode AddScoreToHighScore");
+        }
     }
 
     @Override
@@ -73,16 +80,50 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        Intent intent = new Intent(MainActivity.this, HighScoreActivity.class);
+        startActivity(intent);
+        return super.onOptionsItemSelected(item);
+    }
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+    private void gestionHighScore() {
+        highscores = HighScoreManager.getAll(ctx);
+
+        int score = rand.nextInt(100);
+
+        int i = 0;
+        //Si nous avons atteint le nombre Maximal d'enregistrement dans la BD, alors on fait la mise à jour
+        if(highscores.size() == MAX_REGISTED_HIGHSCORE) {
+            while(i < highscores.size() && highscores.get(i).getScore() > score)
+                i++;
+
+            if(i < highscores.size())
+                highScoreToRegister = new HighScore(highscores.get(i).getId(), score, "");
+        }
+        //Sinon on l'ajoute
+        else {
+            highScoreToRegister = new HighScore(score, "");
         }
 
-        return super.onOptionsItemSelected(item);
+        //S'il le score est plus grand que Un déjà présent ou qu'il reste de la place dans la BD
+        //Alors on propose le choix à l'utilisateur s'il veut le sauvegarder
+        if(highScoreToRegister != null) {
+            HighScoreDialog dialog = new HighScoreDialog(ctx, score);
+            dialog.setPositiveListener(new HighScoreDialog.PositiveListener() {
+                @Override
+                public void onPositiveClick(String name) {
+                    highScoreToRegister.setName(name);
+                    addScoreToHighScore();
+                }
+            });
+
+            dialog.setNegativeListener(new HighScoreDialog.NegativeListener() {
+                @Override
+                public void onNegativeClick() {
+                    highScoreToRegister = null;
+                }
+            });
+
+            dialog.show();
+        }
     }
 }
