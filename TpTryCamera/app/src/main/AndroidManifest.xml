@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="tp_tries.amilette.tptrycamera" >
-    <uses-permission android:name="android.permission.VIBRATE"/>
 
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
     <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature android:name="android.hardware.camera" />
-
     <uses-feature android:name="android.hardware.camera.autofocus" />
-
-    <uses-feature android:name="android.hardware.camera.front" android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.front"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -26,7 +25,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".GameActivity"
@@ -34,23 +32,35 @@
         </activity>
         <activity
             android:name=".HighScoreActivity"
-            android:label="@string/title_activity_high_score" >
+            android:label="@string/title_activity_high_score"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="tp_tries.amilette.tptrycamera.MainActivity" />
         </activity>
         <activity
             android:name=".HelpActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="tp_tries.amilette.tptrycamera.MainActivity" />
         </activity>
         <activity
             android:name=".OptionActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="tp_tries.amilette.tptrycamera.MainActivity" />
         </activity>
+
         <service
             android:name=".services.MyService"
             android:enabled="true"
             android:exported="true" >
         </service>
+
     </application>
-
-
 
 </manifest>

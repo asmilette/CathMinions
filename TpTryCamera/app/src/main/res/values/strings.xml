@@ -1,18 +1,23 @@
 <resources>
     <string name="app_name">Catch Minions</string>
-
     <string name="action_settings">Settings</string>
     <string-array name="bg">
-        <item>Maison des Simpson</item>
-        <item>Ciel de E.T</item>
-        <item>Swamp de Shrek</item>
+        <item>Simpson House</item>
+        <item>E.T. Sky</item>
+        <item>Shrek Swamp</item>
         <item>Camera</item>
     </string-array>
-
     <string name="title_activity_high_score">Highscores</string>
     <string name="addHighScore">Add your score</string>
     <string name="highscore_dialog_ok">Yes</string>
     <string name="highscore_dialog_cancel">No thanks</string>
     <string name="highscore_dialog_tv_score">Score:</string>
     <string name="highscore_dialog_tv_name">Name:</string>
+    <string name="main_btn_play">Play</string>
+    <string name="main_btn_options">Settings</string>
+    <string name="main_btn_help">Help</string>
+    <string name="main_btn_score">Scores</string>
+    <string name="main_btn_quit">Quit</string>
+    <string name="highscore_no_highscore">You have no saved highscore.</string>
+    <string name="menu_highscore_clearHighscore">Clear highscore</string>
 </resources>
