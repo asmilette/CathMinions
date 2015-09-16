@@ -46,6 +46,14 @@ public class MainActivity extends Activity {
             }
         });
 
+        bouttonScore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, HighScoreActivity.class);
+                startActivity(intent);
+            }
+        });
+
         bouttonHelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

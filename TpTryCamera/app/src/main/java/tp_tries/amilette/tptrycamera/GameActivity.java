@@ -14,43 +14,54 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import tp_tries.amilette.tptrycamera.Thread.CameraThread;
-import tp_tries.amilette.tptrycamera.Thread.CatchThread;
 import tp_tries.amilette.tptrycamera.Thread.HandThread;
 import tp_tries.amilette.tptrycamera.Thread.MoveMinion;
+import tp_tries.amilette.tptrycamera.entite.HighScore;
+import tp_tries.amilette.tptrycamera.entite.HighScoreDialog;
 import tp_tries.amilette.tptrycamera.entite.Minion;
 import tp_tries.amilette.tptrycamera.entite.OnFinalDestination;
+import tp_tries.amilette.tptrycamera.manager.HighScoreManager;
 
 public class GameActivity extends Activity  {
 
     //**********ATTRIBUTS*****************
 
-    Context ctx;
-    Handler handler, handlerMoveMinion;
+    private Context ctx;
+    private Handler handler, handlerMoveMinion;
 
-    CameraThread cameraThread;
+    private CameraThread cameraThread;
 
-    FrameLayout fl;
-    FrameLayout ff;
+    private FrameLayout fl;
+    private FrameLayout ff;
 
-    Button btn_bg;
-    Button btn_quit;
-    Button btn_menu;
+    private Button btn_bg;
+    private Button btn_quit;
+    private Button btn_menu;
 
-    ImageView img_bg;
+    private ImageView img_bg;
 
-    //Utilisé poru les Minions
-    ArrayList<Minion> minions;
-    //utilisé pour la génération aléatoire de nombres
-    //Exemple: Uitlisé pour la génération des coordonées de départ des minions
-    Random rand;
+            //Utilisé poru les Minions
+    private ArrayList<Minion> minions;
+             //utilisé pour la génération aléatoire de nombres
+             //Exemple: Uitlisé pour la génération des coordonées de départ des minions
+    private HighScore highScoreToRegister;
+    private List<HighScore> highscores;
+    private Random rand;
+    private final int MAX_REGISTED_HIGHSCORE = 10;
+    private int score = 0;
+    private boolean isGameOver = false;
 
-    MoveMinion moveMinion;
-    HandThread p;
+    //TODO Supprimer cette variable temporaire
+    private int qtyMinions; //Temporaire pour des test
 
 
+
+    private MoveMinion moveMinion;
+    private HandThread p;
 
     //*****************OnCreate**************
     @Override
@@ -75,6 +86,7 @@ public class GameActivity extends Activity  {
         //*****Thread Main****
         p = new HandThread(this, handler);
 
+        //TODO Il faut désactivé la main, lorsque le jeu est terminé
         p.setDestFinale(new OnFinalDestination() {
             @Override
             public void ActionPerformed(int x, int y) {
@@ -101,9 +113,12 @@ public class GameActivity extends Activity  {
                             && y < minion.getTop()+minion.getHeight()){
                         //Log.v("Minions", "Minions attrape");
                         minion.setIsAlive(false);
+                        qtyMinions--;
+                        score += minion.getPoints();
+
 
                         //Creation objet thread de la CatchThread (catch)
-                        CatchThread c = new CatchThread(ctx, x, y, handler);
+                        /*CatchThread c = new CatchThread(ctx, x, y, handler);
                         if(!c.getIsTerminer()){
                             //retirer HandThread p de la view
                             ff.removeView(p);
@@ -115,14 +130,17 @@ public class GameActivity extends Activity  {
                             ff.removeView(c);
                             // remettre p dans view
                             ff.addView(p);
-                        }
+                        }*/
                     }
 
                 }
 
 
                 // if(catch.getIsTerminer(true)
-
+                if(qtyMinions == 0 && !isGameOver) {
+                    isGameOver = true;
+                    gameOver(true);
+                }
             }
         });
         ff.addView(p);
@@ -194,6 +212,8 @@ public class GameActivity extends Activity  {
         });
     }
 
+    /*--------------------- David -------------------*/
+
     private void initMinions() {
         minions = new ArrayList<>();
         rand = new Random();
@@ -201,6 +221,7 @@ public class GameActivity extends Activity  {
         minions.add(new Minion(ctx, rand, 1));
         minions.add(new Minion(ctx, rand, 2));
         minions.add(new Minion(ctx, rand, 5));
+        qtyMinions = 3;
 
         for(Minion m : minions)
             ff.addView(m);
@@ -208,6 +229,59 @@ public class GameActivity extends Activity  {
         handlerMoveMinion = new Handler();
 
         moveMinion = new MoveMinion(this, handler, minions);
+    }
+
+    private void gameOver(boolean isSuccess) {
+        //Gère l'ajout et la mise à jour de la BD pour les scores
+        gestionHighScore();
+    }
+
+    private void gestionHighScore() {
+        highscores = HighScoreManager.getAll(ctx);
+
+        int i = 0;
+        //Si nous avons atteint le nombre Maximal d'enregistrement dans la BD, alors on fait la mise à jour
+        if(highscores.size() == MAX_REGISTED_HIGHSCORE) {
+            while(i < highscores.size() && highscores.get(i).getScore() > score)
+                i++;
+
+            if(i < highscores.size())
+                highScoreToRegister = new HighScore(highscores.get(i).getId(), score, "");
+        }
+        //Sinon on l'ajoute
+        else {
+            highScoreToRegister = new HighScore(score, "");
+        }
+
+        //S'il le score est plus grand que Un déjà présent ou qu'il reste de la place dans la BD
+        //Alors on propose le choix à l'utilisateur s'il veut le sauvegarder
+        if(highScoreToRegister != null) {
+            HighScoreDialog dialog = new HighScoreDialog(ctx, score);
+            dialog.setPositiveListener(new HighScoreDialog.PositiveListener() {
+                @Override
+                public void onPositiveClick(String name) {
+                    highScoreToRegister.setName(name);
+                    addScoreToHighScore();
+                }
+            });
+
+            dialog.setNegativeListener(new HighScoreDialog.NegativeListener() {
+                @Override
+                public void onNegativeClick() {
+                    highScoreToRegister = null;
+                }
+            });
+
+            dialog.show();
+        }
+    }
+
+    private void addScoreToHighScore() {
+        //System.out.println(highScoreToRegister.toString());
+        if(highScoreToRegister.getId() == -1)
+            HighScoreManager.add(ctx, highScoreToRegister);
+        else
+            HighScoreManager.update(ctx, highScoreToRegister);
     }
 
     @Override

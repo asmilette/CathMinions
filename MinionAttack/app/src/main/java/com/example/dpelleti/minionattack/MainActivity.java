@@ -58,33 +58,6 @@ public class MainActivity extends AppCompatActivity {
         gestionHighScore();
     }
 
-    private void addScoreToHighScore() {
-        System.out.println(highScoreToRegister.toString());
-        try {
-            if(highScoreToRegister.getId() == -1)
-                HighScoreManager.add(ctx, highScoreToRegister);
-            else
-                HighScoreManager.update(ctx, highScoreToRegister);
-        }
-        catch(NullPointerException e) {
-            Log.e("Exception", "HighscoreToRegister est null (dans la méthode AddScoreToHighScore");
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent = new Intent(MainActivity.this, HighScoreActivity.class);
-        startActivity(intent);
-        return super.onOptionsItemSelected(item);
-    }
-
     private void gestionHighScore() {
         highscores = HighScoreManager.getAll(ctx);
 
@@ -126,4 +99,33 @@ public class MainActivity extends AppCompatActivity {
             dialog.show();
         }
     }
+
+    private void addScoreToHighScore() {
+        System.out.println(highScoreToRegister.toString());
+        try {
+            if(highScoreToRegister.getId() == -1)
+                HighScoreManager.add(ctx, highScoreToRegister);
+            else
+                HighScoreManager.update(ctx, highScoreToRegister);
+        }
+        catch(NullPointerException e) {
+            Log.e("Exception", "HighscoreToRegister est null (dans la méthode AddScoreToHighScore");
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent = new Intent(MainActivity.this, HighScoreActivity.class);
+        startActivity(intent);
+        return super.onOptionsItemSelected(item);
+    }
+
+
 }
