@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Random;
 
 import tp_tries.amilette.tptrycamera.Thread.CameraThread;
+import tp_tries.amilette.tptrycamera.Thread.CatchThread;
 import tp_tries.amilette.tptrycamera.Thread.HandThread;
 import tp_tries.amilette.tptrycamera.Thread.MoveMinion;
 import tp_tries.amilette.tptrycamera.entite.HighScore;
@@ -55,6 +56,10 @@ public class GameActivity extends Activity  {
     private int score = 0;
     private boolean isGameOver = false;
 
+    private Handler handlerCatch;
+    private CatchThread c;
+    private Boolean catchTerminier;
+
     //TODO Supprimer cette variable temporaire
     private int qtyMinions; //Temporaire pour des test
 
@@ -83,6 +88,8 @@ public class GameActivity extends Activity  {
         /***** Minion ******/
         initMinions();
 
+        //***Boolean
+        catchTerminier = false;
         //*****Thread Main****
         p = new HandThread(this, handler);
 
@@ -118,20 +125,23 @@ public class GameActivity extends Activity  {
 
 
                         //Creation objet thread de la CatchThread (catch)
-                        /*CatchThread c = new CatchThread(ctx, x, y, handler);
+                         c = new CatchThread(ctx, x, y, handler);
+                        handlerCatch = handler;
+                        handler.post(c);
+
                         if(!c.getIsTerminer()){
-                            //retirer HandThread p de la view
                             ff.removeView(p);
                             //ff.addView(catch);
-                            ff.addView(c);
-                        }
-                        else{
-                            // retirer catch du view
-                            ff.removeView(c);
-                            // remettre p dans view
-                            ff.addView(p);
-                        }*/
+                            ff.addView(c);}
+                        catchTerminier = true;
                     }
+
+                  /*  if(catchTerminier = true && c.getIsTerminer()){
+                        // retirer catch du view
+                        ff.removeView(c);
+                        // remettre p dans view
+                        ff.addView(p);
+                    }*/
 
                 }
 

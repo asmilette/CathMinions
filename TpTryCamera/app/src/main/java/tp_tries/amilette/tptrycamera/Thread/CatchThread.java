@@ -64,7 +64,7 @@ public class CatchThread extends View implements  Runnable {
         mainCatch = BitmapFactory.decodeResource(res, R.drawable.handcatch);
 
         xf = wScreen/2;
-        yf= hScreen - mainCatch.getHeight();
+        yf= -hScreen ;
 
         b = yi - (((double)yf-yi)/((double)xf - xi))*xi;
         a = (((double)yf-yi)/((double)xf - xi));
@@ -92,14 +92,14 @@ public class CatchThread extends View implements  Runnable {
         Boolean droite = xi < xf;
 
 
-        int deltax= (xi-xf);
+        int deltax= (xf-xi);
         int deltay = (yi-yf);
 
 
         if (droite) {
-            xi += deltax / 5.0;
+            xi -= deltax / 20.0;
         } else {
-            xi -= deltax / 5.0 * -1;
+            xi += deltax / 20.0 * -1;
         }
 
         yi = (int)(a*xi + b) ;
@@ -110,7 +110,7 @@ public class CatchThread extends View implements  Runnable {
 
         if (droite) {
             if (xi <= xf) {
-                handler.postDelayed(this, 400);
+                handler.postDelayed(this, 300);
             } else {
                 terminer = true;
             }
@@ -118,7 +118,7 @@ public class CatchThread extends View implements  Runnable {
 
         if(!droite) {
             if (xi >= xf) {
-                handler.postDelayed(this, 400);
+                handler.postDelayed(this, 300);
             } else {
                 terminer = true;
             }

@@ -36,6 +36,7 @@ public class MainActivity extends Activity {
         startService(demarreService);
 
 
+
         //*********On click des boutons*********
         boutonJouer.setOnClickListener(new View.OnClickListener() {
             @Override
