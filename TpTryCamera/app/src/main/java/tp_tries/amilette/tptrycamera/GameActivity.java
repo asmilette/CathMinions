@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import tp_tries.amilette.tptrycamera.Thread.CameraThread;
+import tp_tries.amilette.tptrycamera.Thread.CatchThread;
 import tp_tries.amilette.tptrycamera.Thread.HandThread;
 import tp_tries.amilette.tptrycamera.Thread.MoveMinion;
 import tp_tries.amilette.tptrycamera.entite.Minion;
@@ -45,7 +46,9 @@ public class GameActivity extends Activity  {
     //utilisé pour la génération aléatoire de nombres
     //Exemple: Uitlisé pour la génération des coordonées de départ des minions
     Random rand;
+
     MoveMinion moveMinion;
+    HandThread p;
 
 
 
@@ -62,23 +65,75 @@ public class GameActivity extends Activity  {
         fl = (FrameLayout) findViewById(R.id.camera_view);
         ff = (FrameLayout)findViewById(R.id.frame);
 
-        //*******Thread Call
+        //*******Thread Camera
         cameraThread = new CameraThread(ctx, fl, handler);
-        HandThread p = new HandThread(this, handler);
-
-        p.setDestFinale(new OnFinalDestination() {
-            @Override
-            public void ActionPerformed(int x, int y) {
-                //parcour liste minion
-                //pour collision
-            }
-        });
-        ff.addView(p);
+        handler.post(cameraThread);
 
         /***** Minion ******/
         initMinions();
 
-        handler.post(cameraThread);
+        //*****Thread Main****
+        p = new HandThread(this, handler);
+
+        p.setDestFinale(new OnFinalDestination() {
+            @Override
+            public void ActionPerformed(int x, int y) {
+                //parcour liste minioncollision
+                //pour
+                //System.out.println("Coucou");
+                int i = 0;
+                for(Minion minion : minions) {
+                    i++;
+                    //Log.v("Minions", "--------------------------------------------");
+                    /*String str = String.format("No. %1$d,  X: %2$d, Y: %3$d, Width: %4$d, Height: %5$d"
+                            ,i
+                            ,minion.getLeft()
+                            ,minion.getTop()
+                            ,minion.getWidth()
+                            ,minion.getHeight());
+                    Log.v("Minions", "minion"+str);
+                    String str2 = String.format("X: %1$d, Y: %2$d", x, y);
+                    Log.v("Minions", "Main"+str2);*/
+
+                    if(minion.isAlive() && x >= minion.getLeft()
+                            && x < minion.getWidth() + minion.getLeft()
+                            && y >= minion.getTop()
+                            && y < minion.getTop()+minion.getHeight()){
+                        //Log.v("Minions", "Minions attrape");
+                        minion.setIsAlive(false);
+
+                        //Creation objet thread de la CatchThread (catch)
+                        CatchThread c = new CatchThread(ctx, x, y, handler);
+                        if(!c.getIsTerminer()){
+                            //retirer HandThread p de la view
+                            ff.removeView(p);
+                            //ff.addView(catch);
+                            ff.addView(c);
+                        }
+                        else{
+                            // retirer catch du view
+                            ff.removeView(c);
+                            // remettre p dans view
+                            ff.addView(p);
+                        }
+                    }
+
+                }
+
+
+                // if(catch.getIsTerminer(true)
+
+            }
+        });
+        ff.addView(p);
+
+
+
+
+
+
+
+
 
         //***************MENU******************
         btn_menu = (Button) findViewById(R.id.btn_menu);
