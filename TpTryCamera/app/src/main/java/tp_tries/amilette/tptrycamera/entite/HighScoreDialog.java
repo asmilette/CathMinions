@@ -2,6 +2,7 @@ package tp_tries.amilette.tptrycamera.entite;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -72,5 +73,10 @@ public class HighScoreDialog extends Dialog {
 
     public void setNegativeListener(NegativeListener negativeListener) {
         this.negativeListener = negativeListener;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 }
