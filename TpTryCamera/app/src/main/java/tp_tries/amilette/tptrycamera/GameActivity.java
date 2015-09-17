@@ -40,7 +40,7 @@ public class GameActivity extends Activity
 
     private FrameLayout fl;
     private FrameLayout ff;
-    private FrameLayout prison;
+    private FrameLayout prison;//FrameLayout pour la prison
 
     private Button btn_bg;
     private Button btn_quit;
@@ -139,6 +139,7 @@ public class GameActivity extends Activity
                         handler.post(c);
                         prison.addView(new MinionsPrison(ctx, handler, minions));
 
+
                         c.setDestFinale(new OnFinalDestination() {
                             @Override
                             public void ActionPerformed() {
@@ -151,6 +152,7 @@ public class GameActivity extends Activity
                             }
 
                         });
+
 
 
                     }
