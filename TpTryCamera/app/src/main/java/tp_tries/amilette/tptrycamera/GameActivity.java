@@ -76,7 +76,7 @@ public class GameActivity extends Activity implements CreatingMinion.OnTooMuchMi
 
         //*****Layout Call
         fl = (FrameLayout) findViewById(R.id.camera_view);
-        ff = (FrameLayout)findViewById(R.id.frame);
+        ff = (FrameLayout) findViewById(R.id.frame);
 
         //*******Thread Camera
         cameraThread = new CameraThread(ctx, fl, handler);
@@ -85,15 +85,17 @@ public class GameActivity extends Activity implements CreatingMinion.OnTooMuchMi
         /***** Minion ******/
         initMinions();
 
-        //***Boolean
-        catchActiver = false;
-        catchTerminier = false;
         //*****Thread Main****
         p = new HandThread(this, handler);
         ff.addView(p);
 
         //TODO Il faut désactivé la main, lorsque le jeu est terminé
         p.setDestFinale(new OnFinalDestination() {
+            @Override
+            public void ActionPerformed() {
+
+            }
+
             @Override
             public void ActionPerformed(int x, int y) {
                 int i = 0;
@@ -114,7 +116,8 @@ public class GameActivity extends Activity implements CreatingMinion.OnTooMuchMi
                             && x < minion.getWidth() + minion.getLeft()
                             && y >= minion.getTop()
                             && y < minion.getTop() + minion.getHeight()) {
-                        catchActiver = true;
+
+
                         //Log.v("Minions", "Minions attrape");
                         minion.setIsAlive(false);
                         score += minion.getPoints();
@@ -122,27 +125,26 @@ public class GameActivity extends Activity implements CreatingMinion.OnTooMuchMi
                         //Creation objet thread de la CatchThread (catch)
                         c = new CatchThread(ctx, x, y, handler);
                         handlerCatch = handler;
+                        p.setVisibility(View.INVISIBLE);
+                        //ff.addView(catch);
+                        ff.addView(c);
+                        handler.post(c);
 
-                        if (!c.getIsTerminer()) {
-                            p.setVisibility(View.INVISIBLE);
-                            //ff.addView(catch);
-                            ff.addView(c);
-                            handler.post(c);
-                            catchTerminier = true;
-                        }
+                        c.setDestFinale(new OnFinalDestination() {
+                            @Override
+                            public void ActionPerformed() {
+                                p.setVisibility(View.VISIBLE);
+                            }
 
-                        if(catchTerminier = true ){
-                            p.setVisibility(View.VISIBLE);
-                        }
+                            @Override
+                            public void ActionPerformed(int x, int y) {
+                            }
+
+                        });
+
 
                     }
 
-                  /*  if(catchTerminier = true && c.getIsTerminer()){
-                        // retirer catch du view
-                        ff.removeView(c);
-                        // remettre p dans view
-                        ff.addView(p);
-                    }*/
 
                 }
             }
@@ -161,9 +163,9 @@ public class GameActivity extends Activity implements CreatingMinion.OnTooMuchMi
         });
 
         //*****************BACKGROUND CHANGE**********
-        btn_bg = (Button)findViewById(R.id.bg);
+        btn_bg = (Button) findViewById(R.id.bg);
         //*****img
-        img_bg = (ImageView)findViewById(R.id.bg_autre);
+        img_bg = (ImageView) findViewById(R.id.bg_autre);
 
         btn_bg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -229,11 +231,11 @@ public class GameActivity extends Activity implements CreatingMinion.OnTooMuchMi
 
         int i = 0;
         //Si nous avons atteint le nombre Maximal d'enregistrement dans la BD, alors on fait la mise à jour
-        if(highscores.size() == MAX_REGISTED_HIGHSCORE) {
-            while(i < highscores.size() && highscores.get(i).getScore() > score)
+        if (highscores.size() == MAX_REGISTED_HIGHSCORE) {
+            while (i < highscores.size() && highscores.get(i).getScore() > score)
                 i++;
 
-            if(i < highscores.size())
+            if (i < highscores.size())
                 highScoreToRegister = new HighScore(highscores.get(i).getId(), score, "");
         }
         //Sinon on l'ajoute
@@ -243,7 +245,7 @@ public class GameActivity extends Activity implements CreatingMinion.OnTooMuchMi
 
         //S'il le score est plus grand que Un déjà présent ou qu'il reste de la place dans la BD
         //Alors on propose le choix à l'utilisateur s'il veut le sauvegarder
-        if(highScoreToRegister != null) {
+        if (highScoreToRegister != null) {
             HighScoreDialog dialog = new HighScoreDialog(ctx, score);
             dialog.setPositiveListener(new HighScoreDialog.PositiveListener() {
                 @Override
@@ -266,7 +268,7 @@ public class GameActivity extends Activity implements CreatingMinion.OnTooMuchMi
 
     private void addScoreToHighScore() {
         //System.out.println(highScoreToRegister.toString());
-        if(highScoreToRegister.getId() == -1)
+        if (highScoreToRegister.getId() == -1)
             HighScoreManager.add(ctx, highScoreToRegister);
         else
             HighScoreManager.update(ctx, highScoreToRegister);
@@ -287,6 +289,7 @@ public class GameActivity extends Activity implements CreatingMinion.OnTooMuchMi
     @Override
     public void onTooMuchMinions() {
         gameOver(false);
+        p.setIsAlive(false);
     }
 }
 

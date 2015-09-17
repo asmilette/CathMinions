@@ -37,6 +37,7 @@ public class HandThread extends View implements Runnable {
     int x, y;
     double a, b;
     Boolean terminer;
+    boolean isAlive;
 
     OnFinalDestination destFinale;
 
@@ -56,11 +57,10 @@ public class HandThread extends View implements Runnable {
         wR = 100;
         hR = 100;
 
-        x = y =0;
+        x = y = 0;
 
         stepX = x - xRect;
-        stepY = y- yRect;
-
+        stepY = y - yRect;
 
 
         res = getResources();
@@ -68,7 +68,7 @@ public class HandThread extends View implements Runnable {
         minion = BitmapFactory.decodeResource(res, R.drawable.min1);
 
         rect = new Rect(xRect, yRect, xRect + wR, yRect + hR);
-
+        isAlive = true;
 
     }
 
@@ -80,9 +80,9 @@ public class HandThread extends View implements Runnable {
 
     @Override
     protected void onDraw(Canvas canvas) {
-       // canvas.drawRect(rect, p);
-        int x = xRect- main.getWidth()/2;
-        int y = yRect - main.getHeight()/2;
+        // canvas.drawRect(rect, p);
+        int x = xRect - main.getWidth() / 2;
+        int y = yRect - main.getHeight() / 2;
         canvas.drawBitmap(main, x, y, p);
     }
 
@@ -93,10 +93,10 @@ public class HandThread extends View implements Runnable {
 
 
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-             x = (int) event.getX();
+            x = (int) event.getX();
             y = (int) event.getY();
-            b = yRect - (((double)y-yRect)/((double)x - xRect))*xRect;
-            a = (((double)y-yRect)/((double)x - xRect));
+            b = yRect - (((double) y - yRect) / ((double) x - xRect)) * xRect;
+            a = (((double) y - yRect) / ((double) x - xRect));
 
             terminer = false;
             handler.post(this);
@@ -109,74 +109,81 @@ public class HandThread extends View implements Runnable {
     public void movRec1(int x, int y) {
 
         stepX = x - xRect;
-        stepY = y- yRect;
+        stepY = y - yRect;
 
 
+        if (x <= 0 || x + wR >= wScreen)
+            stepX *= -1;
 
-                if (x <= 0 || x + wR >= wScreen)
-                    stepX *= -1;
+        if (y <= 0 || y + hR >= hScreen)
+            stepY *= -1;
 
-                if (y <= 0 || y + hR >= hScreen)
-                    stepY *= -1;
+        xRect += stepX;
+        yRect += stepY;
 
-                xRect +=stepX;
-                yRect +=stepY;
+        rect.set(xRect, yRect, xRect + wR, yRect + hR);
+        bringToFront();
+        invalidate();
 
-                rect.set(xRect, yRect, xRect + wR, yRect + hR);
-                invalidate();
-
-        }
+    }
 
 
     @Override
     public void run() {
-        boolean droite = xRect <= x;
+        if (isAlive) {
+            boolean droite = xRect <= x;
 
-        int deltax = (x - xRect);
-        int deltay = (y - yRect);
+            int deltax = (x - xRect);
+            int deltay = (y - yRect);
 
-        if (deltax == 0) {
+            if (deltax == 0) {
+
+                if (droite) {
+                    xRect += Math.ceil(deltay / 5.0);
+                } else {
+                    xRect -= Math.ceil(deltay / 5.0) * -1;
+                }
+
+            } else {
+
+                if (droite) {
+                    xRect += Math.ceil(deltax / 5.0);
+                } else {
+                    xRect -= Math.ceil(deltax / 5.0) * -1;
+                }
+            }
+
+
+            yRect = (int) (a * xRect + b);
+
+            rect.set(xRect, yRect, xRect + wR, yRect + hR);
+            invalidate();
 
             if (droite) {
-                xRect += Math.ceil(deltay / 5.0);
+                if (xRect < x) {
+                    handler.postDelayed(this, 40);
+                } else {
+                    terminer = true;
+                }
             } else {
-                xRect -= Math.ceil(deltay / 5.0) * -1;
+                if (xRect > x) {
+                    handler.postDelayed(this, 40);
+                } else {
+                    terminer = true;
+                }
             }
-
-        } else {
-
-            if (droite) {
-                xRect += Math.ceil(deltax / 5.0);
-            } else {
-                xRect -= Math.ceil(deltax / 5.0) * -1;
-            }
+            if (terminer)
+                destFinale.ActionPerformed(x, y);
         }
-
-
-        yRect = (int) (a * xRect + b);
-
-        rect.set(xRect, yRect, xRect + wR, yRect + hR);
-        invalidate();
-
-        if (droite) {
-            if (xRect < x) {
-                handler.postDelayed(this, 40);
-            } else {
-                terminer = true;
-            }
-        }
-        else {
-            if (xRect > x) {
-                handler.postDelayed(this, 40);
-            } else {
-                terminer = true;
-            }
-        }
-        if(terminer)
-            destFinale.ActionPerformed(x,y);
     }
 
-    public void setDestFinale(OnFinalDestination dest){
+    public void setDestFinale(OnFinalDestination dest) {
         destFinale = dest;
+    }
+
+    public void setIsAlive(Boolean isAlive) {
+        this.isAlive = isAlive;
+        if (isAlive)
+            handler.post(this);
     }
 }
