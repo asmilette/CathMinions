@@ -28,7 +28,9 @@ import tp_tries.amilette.tptrycamera.entite.Minion;
 import tp_tries.amilette.tptrycamera.entite.OnFinalDestination;
 import tp_tries.amilette.tptrycamera.manager.HighScoreManager;
 
-public class GameActivity extends Activity implements CreatingMinion.OnTooMuchMinionsListener {
+public class GameActivity extends Activity
+        implements CreatingMinion.OnTooMuchMinionsListener
+                    , CreatingMinion.OnCreatedMinionListener {
 
     //**********ATTRIBUTS*****************
 
@@ -82,15 +84,14 @@ public class GameActivity extends Activity implements CreatingMinion.OnTooMuchMi
         cameraThread = new CameraThread(ctx, fl, handler);
         handler.post(cameraThread);
 
-        /***** Minion ******/
-        initMinions();
-
         //***Boolean
         catchActiver = false;
         catchTerminier = false;
         //*****Thread Main****
         p = new HandThread(this, handler);
+        /***** Minion ******/
         ff.addView(p);
+        initMinions();
 
         //TODO Il faut désactivé la main, lorsque le jeu est terminé
         p.setDestFinale(new OnFinalDestination() {
@@ -215,6 +216,8 @@ public class GameActivity extends Activity implements CreatingMinion.OnTooMuchMi
         creatingMinion = new CreatingMinion(ctx, handler, ff, minions, rand);
         //On ajout l'écouteur pour gérer l'évènement lorsqu'il y a trop de minions
         creatingMinion.setOnTooMuchMinionsListener(this);
+        //On ajout l'écouteur pour gérer l'év<nement lorsqu'il y a un minion de créer
+        creatingMinion.setOnCreatedMinionListener(this);
         //le déplacements des minions
         movingMinion = new MovingMinion(this, handler, minions);
     }
@@ -287,6 +290,14 @@ public class GameActivity extends Activity implements CreatingMinion.OnTooMuchMi
     @Override
     public void onTooMuchMinions() {
         gameOver(false);
+    }
+
+    @Override
+    public void onCreatedMinion() {
+        if(p != null) {
+            p.bringToFront();
+            p.invalidate();
+        }
     }
 }
 

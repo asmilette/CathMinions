@@ -23,15 +23,13 @@ public class MyService extends Service {
     public void onCreate() {
         super.onCreate();
         ctx = this;
-        System.out.println("je suis dans onCreate");
+        //System.out.println("je suis dans onCreate");
 
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        System.out.println("je suis dans onStatCommand");
-
-
+        //System.out.println("je suis dans onStatCommand");
         if (!isStart) {
             player = MediaPlayer.create(ctx, R.raw.minionwater);
             player.start();
@@ -48,7 +46,7 @@ public class MyService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        System.out.println("je suis dans onDestroy");
+        //System.out.println("je suis dans onDestroy");
     }
 
     @Override

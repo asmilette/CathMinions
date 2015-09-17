@@ -61,15 +61,11 @@ public class HandThread extends View implements Runnable {
         stepX = x - xRect;
         stepY = y- yRect;
 
-
-
         res = getResources();
         main = BitmapFactory.decodeResource(res, R.drawable.hands);
         minion = BitmapFactory.decodeResource(res, R.drawable.min1);
 
         rect = new Rect(xRect, yRect, xRect + wR, yRect + hR);
-
-
     }
 
     // on Measure ///********************************************/
@@ -88,10 +84,6 @@ public class HandThread extends View implements Runnable {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-
-        int nbPointeur = event.getPointerCount();
-
-
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
              x = (int) event.getX();
             y = (int) event.getY();
@@ -104,29 +96,6 @@ public class HandThread extends View implements Runnable {
         }
         return true;
     }
-
-
-    public void movRec1(int x, int y) {
-
-        stepX = x - xRect;
-        stepY = y- yRect;
-
-
-
-                if (x <= 0 || x + wR >= wScreen)
-                    stepX *= -1;
-
-                if (y <= 0 || y + hR >= hScreen)
-                    stepY *= -1;
-
-                xRect +=stepX;
-                yRect +=stepY;
-
-                rect.set(xRect, yRect, xRect + wR, yRect + hR);
-                invalidate();
-
-        }
-
 
     @Override
     public void run() {
