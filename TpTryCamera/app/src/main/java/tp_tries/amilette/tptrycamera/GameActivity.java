@@ -87,11 +87,15 @@ public class GameActivity extends Activity
         cameraThread = new CameraThread(ctx, fl, handler);
         handler.post(cameraThread);
 
+        //*****Minion*****
+        initMinions();
+
         //*****Thread Main****
         p = new HandThread(this, handler);
         /***** Minion ******/
         ff.addView(p);
-        initMinions();
+
+
 
         //TODO Il faut désactivé la main, lorsque le jeu est terminé
         p.setDestFinale(new OnFinalDestination() {
@@ -133,6 +137,7 @@ public class GameActivity extends Activity
                         //ff.addView(catch);
                         ff.addView(c);
                         handler.post(c);
+                        prison.addView(new MinionsPrison(ctx, handler, minions));
 
                         c.setDestFinale(new OnFinalDestination() {
                             @Override
@@ -296,6 +301,7 @@ public class GameActivity extends Activity
     @Override
     public void onTooMuchMinions() {
         gameOver(false);
+        minions.clear();
         p.setIsAlive(false);
     }
 
