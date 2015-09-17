@@ -67,8 +67,9 @@ public class MinionsPrison extends View  {
     @Override
     protected void onDraw(Canvas canvas) {
         // canvas.drawRect(rect, p);
+        int nbp = nbMinions*minionPrison.getWidth();
         //si le minions arrive jusqu au bout de la prison
-        if(nbMinions*minionPrison.getWidth()> wScreen) {
+        if(nbp<= wScreen) {
             int y = yi;
             int x = nbMinions*minionPrison.getWidth();
             canvas.drawBitmap(minionPrison, x, y, p);
