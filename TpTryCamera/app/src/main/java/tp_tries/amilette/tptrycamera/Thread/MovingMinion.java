@@ -10,14 +10,14 @@ import tp_tries.amilette.tptrycamera.entite.Minion;
 /**
  * Created by dpelleti on 2015-09-15.
  */
-public class MoveMinion implements Runnable {
+public class MovingMinion implements Runnable {
     Context ctx;
     Handler handler;
     ArrayList<Minion> minions;
     int screenWidth, screenHeight;
     boolean isAlive = true;
 
-    public MoveMinion(Context ctx, Handler handler, ArrayList<Minion> minions) {
+    public MovingMinion(Context ctx, Handler handler, ArrayList<Minion> minions) {
         this.ctx = ctx;
         this.handler = handler;
         this.minions = minions;

@@ -32,35 +32,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#CECECE"
-            android:text="Jouer"/>
+            android:text="@string/main_btn_play"/>
 
         <Button
             android:id="@+id/options"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#9E9E9E"
-            android:text="Options"/>
+            android:text="@string/main_btn_options"/>
 
         <Button
             android:id="@+id/aide"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#C1BFB1"
-            android:text="Aide"/>
+            android:text="@string/main_btn_help"/>
 
         <Button
             android:id="@+id/score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#CECECE"
-            android:text="Score"/>
+            android:text="@string/main_btn_score"/>
 
         <Button
         android:id="@+id/sortir"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
             android:background="#9E9E9E"
-        android:text="Quitter"/>
+        android:text="@string/main_btn_quit"/>
 
     </LinearLayout>
 

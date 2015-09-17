@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">Attrapez les minions</string>
+    <string-array name="bg">
+        <item>Maison des Simpson</item>
+        <item>Ciel de E.T</item>
+        <item>Swamp de Shrek</item>
+        <item>Caméra</item>
+    </string-array>
     <string name="action_settings">Options</string>
     <string name="title_activity_high_score">Pointages</string>
     <string name="addHighScore">Ajoutez votre pointage</string>
@@ -7,4 +13,11 @@
     <string name="highscore_dialog_cancel">Non merci</string>
     <string name="highscore_dialog_tv_score">Points:</string>
     <string name="highscore_dialog_tv_name">Nom:</string>
+    <string name="main_btn_play">Jouer</string>
+    <string name="main_btn_options">Options</string>
+    <string name="main_btn_help">Aide</string>
+    <string name="main_btn_score">Pointages</string>
+    <string name="main_btn_quit">Quitter</string>
+    <string name="highscore_no_highscore">Il n\'y a pas de pointages sauvegardé.</string>
+    <string name="menu_highscore_clearHighscore">Supprimez les pointages</string>
 </resources>

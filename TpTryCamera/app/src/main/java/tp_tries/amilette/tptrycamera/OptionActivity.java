@@ -1,18 +1,16 @@
 package tp_tries.amilette.tptrycamera;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-import tp_tries.amilette.tptrycamera.R;
-
-public class OptionActivity extends Activity {
+public class OptionActivity extends AppCompatActivity {
 
     Button couleur;
     Button quitter;
@@ -32,45 +30,35 @@ public class OptionActivity extends Activity {
         vue = (LinearLayout) findViewById(R.id.Vue);
 
         couleur.setOnClickListener(new View.OnClickListener() {
-                                       @Override
-                                       public void onClick(View v) {
+               @Override
+               public void onClick(View v) {
 
-                                           AlertDialog.Builder alertDialog = new AlertDialog.Builder(ctx);
+                   AlertDialog.Builder alertDialog = new AlertDialog.Builder(ctx);
 
-                                           alertDialog.setTitle("Change color");
+                   alertDialog.setTitle("Change color");
 
-                                           alertDialog.setMessage("Choisissez votre couleur!!!");
+                   alertDialog.setMessage("Choisissez votre couleur!!!");
 
-                                           alertDialog.setPositiveButton("Cyan", new DialogInterface.OnClickListener() {
-                                               @Override
-                                               public void onClick(DialogInterface dialog, int which) {
-                                                   vue.setBackgroundColor(Color.CYAN);
-                                               }
-                                           });
+                   alertDialog.setPositiveButton("Cyan", new DialogInterface.OnClickListener() {
+                       @Override
+                       public void onClick(DialogInterface dialog, int which) {
+                           vue.setBackgroundColor(Color.CYAN);
+                       }
+                   });
 
-                                           alertDialog.setNegativeButton("Red", new DialogInterface.OnClickListener() {
-                                               @Override
-                                               public void onClick(DialogInterface dialog, int which) {
-                                                   vue.setBackgroundColor(Color.RED);
-                                               }
-                                           });
+                   alertDialog.setNegativeButton("Red", new DialogInterface.OnClickListener() {
+                       @Override
+                       public void onClick(DialogInterface dialog, int which) {
+                           vue.setBackgroundColor(Color.RED);
+                       }
+                   });
 
-                                           AlertDialog alertDialog1 = alertDialog.create();
+                   AlertDialog alertDialog1 = alertDialog.create();
 
-                                           alertDialog1.show();
-                                       }
+                   alertDialog1.show();
+               }
          });
-
-        quitter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                android.os.Process.killProcess(android.os.Process.myPid());
-            }
-        });
-
-         }
-
-
     }
+}
 
 

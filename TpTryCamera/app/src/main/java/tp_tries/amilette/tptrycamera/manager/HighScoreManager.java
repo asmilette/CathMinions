@@ -72,4 +72,11 @@ public class HighScoreManager {
         db.close();
         return highScores;
     }
+
+    public static boolean clear(Context ctx) {
+        SQLiteDatabase db = BDConnection.getBD(ctx);
+        boolean isSucces = db.delete(GestionBD.HIGH_SCORE__TABLE__NAME, null, null) > 0;
+        db.close();
+        return isSucces;
+    }
 }

@@ -2,6 +2,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/minions_bg"
+            android:layout_gravity="center_horizontal|top" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_activity_high_score"
+            android:layout_gravity="center"
+            android:textSize="48sp"
+            android:textColor="#010101"
+            android:background="#c86a6a6a"
+            android:textStyle="bold" />
+    </FrameLayout>
+    <TextView
+        android:id="@+id/tv_msgNoHighscore"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/highscore_no_highscore" />
     <ListView
         android:id="@+id/lv_highScore"
         android:layout_width="match_parent"
