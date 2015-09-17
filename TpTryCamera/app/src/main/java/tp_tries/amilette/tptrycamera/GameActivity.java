@@ -38,7 +38,7 @@ public class GameActivity extends Activity implements CreatingMinion.OnTooMuchMi
 
     private FrameLayout fl;
     private FrameLayout ff;
-    private FrameLayout prison;
+    private FrameLayout prison;//FrameLayout pour la prison
 
     private Button btn_bg;
     private Button btn_quit;
@@ -130,6 +130,7 @@ public class GameActivity extends Activity implements CreatingMinion.OnTooMuchMi
                             p.setVisibility(View.INVISIBLE);
                             //ff.addView(catch);
                             ff.addView(c);
+                            //faire apparaitre le minions captuerer en prison
                             prison.addView(new MinionsPrison(ctx, handler, minions));
                             handler.post(c);
                             catchTerminier = true;
