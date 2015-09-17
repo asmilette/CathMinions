@@ -11,24 +11,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:background="#CECECE"
             android:layout_weight="1">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_weight="1">
+                android:orientation="vertical"
+                android:layout_weight="3">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/min1"
-                    android:layout_weight="1"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Bienvenue sur le jeu de CatchMinion "/>
+                    android:src="@drawable/minions_bg"
+                    android:layout_weight="6"/>
             </LinearLayout>
 
             <LinearLayout
@@ -55,16 +51,17 @@
                 android:orientation="horizontal"
                 android:layout_weight="1">
 
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="La main se referme sur les minions des que vous les toucher.Les minions sont constament en mouvement,il vous faut prevoir le prochains endroit ou va se trouver le minions pour le capturer."/>
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/handcatch"
                     android:layout_weight="1"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="La main se referme sur les minions des que vous les toucher."/>
 
             </LinearLayout>
 
@@ -84,11 +81,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="La main vous permet d'attraper les minions.Pour la deplacer il vous suffit de toucher l'ecran sur la partie de jeu et elle vous suivra immediatement."/>
+                    android:text="Une fois les minions capturer, ils sont mis en prison."/>
             </LinearLayout>
 
 
-    </LinearLayout>
+
+
+        </LinearLayout>
 
 
 

@@ -304,6 +304,7 @@ public class GameActivity extends Activity
     public void onTooMuchMinions() {
         gameOver(false);
         minions.clear();
+        prison.removeAllViews();
         p.setIsAlive(false);
     }
 
