@@ -65,6 +65,8 @@ public class HighScoreDialog extends Dialog {
                 dismiss();
             }
         });
+
+        setCanceledOnTouchOutside(false);
     }
 
     public void setPositiveListener(PositiveListener positiveListener) {

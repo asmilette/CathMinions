@@ -13,6 +13,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 
 import tp_tries.amilette.tptrycamera.R;
+import tp_tries.amilette.tptrycamera.entite.OnFinalDestination;
 
 /**
  * Created by amilette on 2015-09-15.
@@ -27,7 +28,7 @@ public class CatchThread extends View implements  Runnable {
 
     int wScreen, hScreen;
 
-    int xi, yi;
+    int xi, yi, xdroit, ydroit;
 
     int xf, yf;
 
@@ -38,6 +39,7 @@ public class CatchThread extends View implements  Runnable {
     double a, b;
 
     Boolean terminer;
+    OnFinalDestination destFinale;
 
 
 
@@ -56,15 +58,15 @@ public class CatchThread extends View implements  Runnable {
         wScreen = metrics.widthPixels;
         hScreen = metrics.heightPixels;
 
-        xi = xCatch;
-        yi = yCatch;
+        xi = xdroit= xCatch;
+        yi =  ydroit=  yCatch;
 
         rect = new Rect(xi, yi, xi + 100, yi + 100);
         res = getResources();
         mainCatch = BitmapFactory.decodeResource(res, R.drawable.handcatch);
 
         xf = wScreen/2;
-        yf= -hScreen ;
+        yf= hScreen - (int)(hScreen*0.25);
 
         b = yi - (((double)yf-yi)/((double)xf - xi))*xi;
         a = (((double)yf-yi)/((double)xf - xi));
@@ -89,34 +91,29 @@ public class CatchThread extends View implements  Runnable {
     @Override
     public void run() {
 
-        Boolean droite = xi < xf;
+        Boolean droite = xdroit > xf;
 
 
-        int deltax= (xf-xi);
-        int deltay = (yi-yf);
+        int deltax= (xf-xdroit);
+        int deltay = (yf-yi);
 
 
         if (droite) {
-            xi -= deltax / 20.0;
+            xi += Math.ceil(deltax / 20.0);
+            yi +=Math.ceil(deltay / 20.0);
         } else {
-            xi += deltax / 20.0 * -1;
+            xi -= Math.ceil(deltax / 20.0) * -1;
+            yi +=Math.ceil(deltay / 20.0);
         }
 
-        yi = (int)(a*xi + b) ;
+
+       // yi = (int)(a*xi - b) ;
 
         rect.set(xi, yi, xi + 100, yi + 100);
         invalidate();
 
 
-        if (droite) {
-            if (xi <= xf) {
-                handler.postDelayed(this, 300);
-            } else {
-                terminer = true;
-            }
-        }
-
-        if(!droite) {
+       /* if (droite) {
             if (xi >= xf) {
                 handler.postDelayed(this, 300);
             } else {
@@ -124,14 +121,33 @@ public class CatchThread extends View implements  Runnable {
             }
         }
 
+        if(!droite) {
+            if (xi <= xf) {
+                handler.postDelayed(this, 300);
+            } else {
+                terminer = true;
+            }
+        }
+        */
+
+        if(yi<yf){
+
+            handler.postDelayed(this, 30);
+        } else {
+            terminer = true;
+        }
+
+
+
+        if (terminer)
+            destFinale.ActionPerformed();
     }
 
 
-    public boolean getIsTerminer() {
-        return terminer;
+    public void setDestFinale(OnFinalDestination dest) {
+        destFinale = dest;
     }
 
-    public void setIsTerminer(boolean isTerminer) {
-        this.terminer = isTerminer;
-    }
+
+
 }
