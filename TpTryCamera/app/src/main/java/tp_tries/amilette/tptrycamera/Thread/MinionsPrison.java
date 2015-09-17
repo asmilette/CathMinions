@@ -52,7 +52,7 @@ public class MinionsPrison extends View  {
         wScreen = metrics.widthPixels;
         hScreen = metrics.heightPixels;
 
-        minionPrison = BitmapFactory.decodeResource(res, R.drawable.minion);
+        minionPrison = BitmapFactory.decodeResource(res, R.drawable.miniongood);
 
         p = new Paint(Paint.ANTI_ALIAS_FLAG);
         p.setColor(Color.BLACK);
