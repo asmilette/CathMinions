@@ -33,6 +33,7 @@
         android:layout_weight="6"
         android:background="#130077">
         <FrameLayout
+            android:id="@+id/prison"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <ImageView

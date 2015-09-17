@@ -21,6 +21,7 @@ import tp_tries.amilette.tptrycamera.Thread.CameraThread;
 import tp_tries.amilette.tptrycamera.Thread.CatchThread;
 import tp_tries.amilette.tptrycamera.Thread.CreatingMinion;
 import tp_tries.amilette.tptrycamera.Thread.HandThread;
+import tp_tries.amilette.tptrycamera.Thread.MinionsPrison;
 import tp_tries.amilette.tptrycamera.Thread.MovingMinion;
 import tp_tries.amilette.tptrycamera.entite.HighScore;
 import tp_tries.amilette.tptrycamera.entite.HighScoreDialog;
@@ -28,7 +29,9 @@ import tp_tries.amilette.tptrycamera.entite.Minion;
 import tp_tries.amilette.tptrycamera.entite.OnFinalDestination;
 import tp_tries.amilette.tptrycamera.manager.HighScoreManager;
 
-public class GameActivity extends Activity implements CreatingMinion.OnTooMuchMinionsListener {
+public class GameActivity extends Activity
+        implements CreatingMinion.OnTooMuchMinionsListener
+                    , CreatingMinion.OnCreatedMinionListener {
 
     //**********ATTRIBUTS*****************
 
@@ -37,6 +40,7 @@ public class GameActivity extends Activity implements CreatingMinion.OnTooMuchMi
 
     private FrameLayout fl;
     private FrameLayout ff;
+    private FrameLayout prison;
 
     private Button btn_bg;
     private Button btn_quit;
@@ -77,17 +81,17 @@ public class GameActivity extends Activity implements CreatingMinion.OnTooMuchMi
         //*****Layout Call
         fl = (FrameLayout) findViewById(R.id.camera_view);
         ff = (FrameLayout) findViewById(R.id.frame);
+        prison = (FrameLayout) findViewById(R.id.prison);
 
         //*******Thread Camera
         cameraThread = new CameraThread(ctx, fl, handler);
         handler.post(cameraThread);
 
-        /***** Minion ******/
-        initMinions();
-
         //*****Thread Main****
         p = new HandThread(this, handler);
+        /***** Minion ******/
         ff.addView(p);
+        initMinions();
 
         //TODO Il faut désactivé la main, lorsque le jeu est terminé
         p.setDestFinale(new OnFinalDestination() {
@@ -136,6 +140,7 @@ public class GameActivity extends Activity implements CreatingMinion.OnTooMuchMi
                                 p.setVisibility(View.VISIBLE);
                             }
 
+                        
                             @Override
                             public void ActionPerformed(int x, int y) {
                             }
@@ -217,6 +222,8 @@ public class GameActivity extends Activity implements CreatingMinion.OnTooMuchMi
         creatingMinion = new CreatingMinion(ctx, handler, ff, minions, rand);
         //On ajout l'écouteur pour gérer l'évènement lorsqu'il y a trop de minions
         creatingMinion.setOnTooMuchMinionsListener(this);
+        //On ajout l'écouteur pour gérer l'év<nement lorsqu'il y a un minion de créer
+        creatingMinion.setOnCreatedMinionListener(this);
         //le déplacements des minions
         movingMinion = new MovingMinion(this, handler, minions);
     }
@@ -290,6 +297,14 @@ public class GameActivity extends Activity implements CreatingMinion.OnTooMuchMi
     public void onTooMuchMinions() {
         gameOver(false);
         p.setIsAlive(false);
+    }
+
+    @Override
+    public void onCreatedMinion() {
+        if(p != null) {
+            p.bringToFront();
+            p.invalidate();
+        }
     }
 }
 
