@@ -1,6 +1,7 @@
 package tp_tries.amilette.tptrycamera.entite;
 
 import android.content.Context;
+import android.graphics.drawable.AnimationDrawable;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
@@ -36,12 +37,22 @@ public class Minion extends ImageView {
     private int screenWidth, screenHeight;
     private Random rand;
 
+    AnimationDrawable anim;
+
+
     public Minion(Context context, Random rand, int points) {
         super(context);
         this.rand = rand;
         this.points = points;
-        this.setImageResource(R.drawable.minion);
+
+
+       // this.setImageResource(R.drawable.minion);
         setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        //test anim
+        setBackgroundResource(R.drawable.anim_img_multi);
+        anim = (AnimationDrawable) getBackground();
+        anim.start();
 
         screenWidth = getResources().getDisplayMetrics().widthPixels;
         screenHeight = getResources().getDisplayMetrics().heightPixels;
