@@ -51,7 +51,7 @@ public class HighScoreManager {
         SQLiteDatabase db = BDConnection.getBD(ctx);
         Cursor c = db.query(GestionBD.HIGH_SCORE__TABLE__NAME
                 , new String[] { GestionBD.HIGH_SCORE__ID, GestionBD.HIGH_SCORE__SCORE, GestionBD.HIGH_SCORE__NAME}
-                , null, null, null, null, GestionBD.HIGH_SCORE__ID + " DESC");
+                , null, null, null, null, GestionBD.HIGH_SCORE__SCORE + " DESC");
         while(c.moveToNext()) {
             highScores.add(new HighScore(
                 c.getInt(0)

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
@@ -35,33 +36,27 @@ public class GameActivity extends Activity
     //**********ATTRIBUTS*****************
 
     private Context ctx;
-    private Handler handler;//, handlerMoveMinion;
+    private Handler handler;
 
     private FrameLayout fl;
     private FrameLayout ff;
     private FrameLayout prison;//FrameLayout pour la prison
 
-    private Button btn_bg;
-    private Button btn_quit;
-    private Button btn_menu;
+    private Button btn_bg, btn_menu, btn_help;
 
     private ImageView img_bg;
 
     //Utilisé poru les Minions
     private ArrayList<Minion> minions;
-    //utilisé pour la génération aléatoire de nombres
-    //Exemple: Uitlisé pour la génération des coordonées de départ des minions
     private HighScore highScoreToRegister;
     private List<HighScore> highscores;
     private Random rand;
     private final int MAX_REGISTED_HIGHSCORE = 10;
+    private final int MAX_ALLOWED_MINIONS_IN_GAME = 15;
     private int score = 0;
-    private boolean isGameOver = false;
 
-    private CatchThread c;
-    private Boolean catchActiver;
-    private Boolean catchTerminier;
     //Thread
+    private CatchThread c;
     private MovingMinion movingMinion;
     private CreatingMinion creatingMinion;
     private HandThread p;
@@ -100,10 +95,9 @@ public class GameActivity extends Activity
             @Override
             public void ActionPerformed(int x, int y) {
                 int i = 0;
-                while(i < minions.size()) {
+                while (i < minions.size()) {
                     Minion minion = minions.get(i);
-                //for (Minion minion : minions) {
-                     if (minion.isAlive() && x >= minion.getLeft()
+                    if (minion.isAlive() && x >= minion.getLeft()
                             && x < minion.getWidth() + minion.getLeft()
                             && y >= minion.getTop()
                             && y < minion.getTop() + minion.getHeight()) {
@@ -128,7 +122,6 @@ public class GameActivity extends Activity
                             @Override
                             public void ActionPerformed(int x, int y) {
                             }
-
                         });
                     }
                     i++;
@@ -143,12 +136,12 @@ public class GameActivity extends Activity
             @Override
             public void onClick(View v) {
                 finish();
-
             }
         });
 
         //*****************BACKGROUND CHANGE**********
         btn_bg = (Button) findViewById(R.id.bg);
+        btn_help = (Button) findViewById(R.id.help);
         //*****img
         img_bg = (ImageView) findViewById(R.id.bg_autre);
 
@@ -158,7 +151,7 @@ public class GameActivity extends Activity
                 //CREER BUILDER
                 AlertDialog.Builder build = new AlertDialog.Builder(ctx);
 
-                build.setTitle("Background");
+                build.setTitle(R.string.title_dialog_background);
                 build.setItems(R.array.bg, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int i) {
@@ -190,6 +183,14 @@ public class GameActivity extends Activity
                 alert.show();
             }
         });
+
+        btn_help.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GameActivity.this, HelpActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     /*--------------------- David -------------------*/
@@ -198,7 +199,7 @@ public class GameActivity extends Activity
         minions = new ArrayList<>();
         rand = new Random();
         //La création des minions
-        creatingMinion = new CreatingMinion(ctx, handler, ff, minions, rand);
+        creatingMinion = new CreatingMinion(ctx, handler, ff, minions, MAX_ALLOWED_MINIONS_IN_GAME, rand);
         //On ajout l'écouteur pour gérer l'évènement lorsqu'il y a trop de minions
         creatingMinion.setOnTooMuchMinionsListener(this);
         //On ajout l'écouteur pour gérer l'évènement lorsqu'il y a un minion de créer

@@ -1,14 +1,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#03224C">
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="320dp"
+            android:layout_height="295dp"
             android:src="@drawable/minions_bg"
             android:layout_gravity="center_horizontal|top" />
         <TextView
@@ -21,13 +22,42 @@
             android:background="#c86a6a6a"
             android:textStyle="bold" />
     </FrameLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:textStyle="bold"
+            android:text="@string/highscore_header_name"
+            android:textColor="#fee142"
+            android:textSize="26sp"
+            android:gravity="center_horizontal" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:textStyle="bold"
+            android:text="@string/highscore_header_score"
+            android:textColor="#fee142"
+            android:textSize="26sp"
+            android:gravity="center_horizontal" />
+    </LinearLayout>
     <TextView
         android:id="@+id/tv_msgNoHighscore"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/highscore_no_highscore" />
-    <ListView
-        android:id="@+id/lv_highScore"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:gravity="center_horizontal"
+        android:textColor="#fee142"
+        android:text="@string/highscore_no_highscore"
+        android:textSize="20sp" />
+
+        <ListView
+            android:id="@+id/lv_highScore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 </LinearLayout>

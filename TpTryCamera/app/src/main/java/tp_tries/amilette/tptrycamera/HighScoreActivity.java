@@ -50,6 +50,9 @@ public class HighScoreActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_clearHighscore) {
             HighScoreManager.clear(ctx);
+            highScoreAdapter.clear();
+            highScoreAdapter.notifyDataSetChanged();
+            findViewById(R.id.tv_msgNoHighscore).setVisibility(View.VISIBLE);
             return true;
         }
 

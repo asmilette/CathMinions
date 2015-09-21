@@ -13,11 +13,15 @@
     <string name="highscore_dialog_cancel">Non merci</string>
     <string name="highscore_dialog_tv_score">Points:</string>
     <string name="highscore_dialog_tv_name">Nom:</string>
-    <string name="main_btn_play">Jouer</string>
-    <string name="main_btn_options">Options</string>
-    <string name="main_btn_help">Aide</string>
-    <string name="main_btn_score">Pointages</string>
-    <string name="main_btn_quit">Quitter</string>
+    <string name="btn_play">Jouer</string>
+    <string name="btn_options">Options</string>
+    <string name="btn_help">Aide</string>
+    <string name="btn_score">Pointages</string>
+    <string name="btn_quit">Quitter</string>
     <string name="highscore_no_highscore">Il n\'y a pas de pointages sauvegardé.</string>
     <string name="menu_highscore_clearHighscore">Supprimez les pointages</string>
+    <string name="highscore_header_name">Nom</string>
+    <string name="highscore_header_score">Pointage</string>
+    <string name="btn_menu">Menu</string>
+    <string name="title_dialog_background">Arrière-plan</string>
 </resources>

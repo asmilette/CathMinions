@@ -15,7 +15,6 @@ public class MainActivity extends AppCompatActivity {
     Button bouttonHelp;
     Button bouttonScore;
     Button bouttonQuitter;
-    Button bouttonOptions;
 
     Intent demarreService;
 
@@ -28,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
         boutonJouer = (Button) findViewById(R.id.jouer);
         bouttonHelp = (Button) findViewById(R.id.aide);
         bouttonScore = (Button) findViewById(R.id.score);
-        bouttonOptions = (Button) findViewById(R.id.options);
         bouttonQuitter = (Button) findViewById(R.id.sortir);
 
         //*********On click des boutons*********
@@ -53,14 +51,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, HelpActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        bouttonOptions.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, OptionActivity.class);
                 startActivity(intent);
             }
         });

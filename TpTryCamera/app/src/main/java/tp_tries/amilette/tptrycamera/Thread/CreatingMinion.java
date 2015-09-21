@@ -32,15 +32,17 @@ public class CreatingMinion implements Runnable {
     private OnCreatedMinionListener onCreatedMinionListener;
 
     private final int MAX_SCORE_FOR_MINION = 5;
-    private final int MAX_ALLOWED_MINIONS_IN_GAME = 15;
+    private int maxMinionAllowedInGame = 0;
+
 
     private boolean isAlive;
 
-    public CreatingMinion(Context ctx, Handler handler, ViewGroup viewGroup, List<Minion> minions, Random rand) {
+    public CreatingMinion(Context ctx, Handler handler, ViewGroup viewGroup, List<Minion> minions, int maxMinionAllowedInGame, Random rand) {
         this.ctx = ctx;
         this.handler = handler;
         this.viewGroup = viewGroup;
         this.minions = minions;
+        this.maxMinionAllowedInGame = maxMinionAllowedInGame;
         this.rand = rand;
         isAlive = true;
         handler.post(this);
@@ -57,7 +59,7 @@ public class CreatingMinion implements Runnable {
             if (onCreatedMinionListener != null)
                 onCreatedMinionListener.onCreatedMinion();
 
-            if (minions.size() < MAX_ALLOWED_MINIONS_IN_GAME)
+            if (minions.size() < maxMinionAllowedInGame)
                 handler.postDelayed(this, creationDelay);
             else if (onTooMuchMinionsListener != null)
                 onTooMuchMinionsListener.onTooMuchMinions();

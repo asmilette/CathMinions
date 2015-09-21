@@ -57,24 +57,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
-            android:text="Menu" />
+            android:text="@string/btn_menu" />
         <Button
             android:id="@+id/bg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
-            android:text="BackGround" />
+            android:text="@string/btn_options" />
         <Button
             android:id="@+id/help"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
-            android:text="Help" />
-        <Button
-            android:id="@+id/imgClose"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:text="Quit" />
+            android:text="@string/btn_help" />
     </LinearLayout>
 </LinearLayout>
