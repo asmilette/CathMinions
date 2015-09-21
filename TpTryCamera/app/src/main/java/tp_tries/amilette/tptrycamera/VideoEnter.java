@@ -52,7 +52,7 @@ public class VideoEnter extends Activity {
             myVideoView.setMediaController(mediaControls);
 
             //set the uri of the video to be played
-            myVideoView.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.minionvideo));
+            myVideoView.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.minionvideo2));
 
         } catch (Exception e) {
             Log.e("Error", e.getMessage());
