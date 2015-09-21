@@ -8,14 +8,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.View;
 
-import java.util.ArrayList;
-
 import tp_tries.amilette.tptrycamera.R;
-import tp_tries.amilette.tptrycamera.entite.Minion;
 
 /**
  * Created by dtchyman on 2015-09-16.
@@ -24,8 +20,6 @@ public class MinionsPrison extends View  {
 
     Context ctx;
     Resources res;
-    Handler handler;
-    ArrayList<Minion> minions;
     int xi, yi;
     boolean isAlive = true;
     Bitmap minionPrison;
@@ -37,10 +31,8 @@ public class MinionsPrison extends View  {
     Paint p;
 
 
-    public MinionsPrison(Context ctx, ArrayList<Minion> minions) {
+    public MinionsPrison(Context ctx) {
         super(ctx);
-
-        this.minions = minions;
         this.xi = 0;
         this.yi = 0;
         nbMinions ++;
@@ -55,7 +47,6 @@ public class MinionsPrison extends View  {
 
         p = new Paint(Paint.ANTI_ALIAS_FLAG);
         p.setColor(Color.BLACK);
-
     }
 
 
@@ -73,7 +64,7 @@ public class MinionsPrison extends View  {
             int x = nbMinions*minionPrison.getWidth();
             canvas.drawBitmap(minionPrison, x, y, p);
         }
-        //le prochain minions decends
+        //le prochain minions descends
         else{
             int y = minionPrison.getHeight();
             int x = nbMinions*minionPrison.getWidth();

@@ -100,7 +100,9 @@ public class GameActivity extends Activity
             @Override
             public void ActionPerformed(int x, int y) {
                 int i = 0;
-                for (Minion minion : minions) {
+                while(i < minions.size()) {
+                    Minion minion = minions.get(i);
+                //for (Minion minion : minions) {
                      if (minion.isAlive() && x >= minion.getLeft()
                             && x < minion.getWidth() + minion.getLeft()
                             && y >= minion.getTop()
@@ -108,15 +110,17 @@ public class GameActivity extends Activity
 
                         minion.setIsAlive(false);
                         score += minion.getPoints();
+                        ff.removeView(minion);
+                        minions.remove(minion);
 
                         p.setVisibility(View.INVISIBLE);
                         c.setVisibility(View.VISIBLE);
                         c.startCatch(x, y);
-                        prison.addView(new MinionsPrison(ctx, minions));
 
                         c.setDestFinale(new OnFinalDestination() {
                             @Override
                             public void ActionPerformed() {
+                                prison.addView(new MinionsPrison(ctx));
                                 c.setVisibility(View.INVISIBLE);
                                 p.setVisibility(View.VISIBLE);
                             }
@@ -127,6 +131,7 @@ public class GameActivity extends Activity
 
                         });
                     }
+                    i++;
                 }
             }
         });
