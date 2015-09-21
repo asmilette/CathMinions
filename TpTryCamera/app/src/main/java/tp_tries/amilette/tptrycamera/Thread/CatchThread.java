@@ -38,15 +38,10 @@ public class CatchThread extends View implements  Runnable {
 
     double a, b;
 
-    Boolean terminer;
+    Boolean terminer, isAlive;
     OnFinalDestination destFinale;
 
-
-
-
-
-
-    public CatchThread (Context context, int xCatch, int yCatch, Handler handler ){
+    public CatchThread (Context context, Handler handler ){
         super(context);
         ctx = context;
         this.handler = handler;
@@ -54,16 +49,22 @@ public class CatchThread extends View implements  Runnable {
         p = new Paint(Paint.ANTI_ALIAS_FLAG);
         p.setColor(Color.BLACK);
 
+        res = getResources();
+        mainCatch = BitmapFactory.decodeResource(res, R.drawable.handcatch);
+
         DisplayMetrics metrics = ctx.getResources().getDisplayMetrics();
         wScreen = metrics.widthPixels;
         hScreen = metrics.heightPixels;
+        setVisibility(INVISIBLE);
+        isAlive = false;
+        terminer = true;
+    }
 
-        xi = xdroit= xCatch;
-        yi =  ydroit=  yCatch;
+    public void startCatch(int x, int y) {
+        xi = xdroit= x;
+        yi =  ydroit=  y;
 
         rect = new Rect(xi, yi, xi + 100, yi + 100);
-        res = getResources();
-        mainCatch = BitmapFactory.decodeResource(res, R.drawable.handcatch);
 
         xf = wScreen/2;
         yf= hScreen - (int)(hScreen*0.25);
@@ -72,6 +73,8 @@ public class CatchThread extends View implements  Runnable {
         a = (((double)yf-yi)/((double)xf - xi));
 
         terminer = false;
+        if(handler != null)
+            handler.post(this);
     }
 
     @Override
@@ -81,66 +84,44 @@ public class CatchThread extends View implements  Runnable {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        // canvas.drawRect(rect, p);
-        int x = xi- mainCatch.getWidth()/2;
-        int y = yi - mainCatch.getHeight()/2;
-        canvas.drawBitmap(mainCatch, x, y, p);
+        //if(getVisibility() == VISIBLE) {
+            int x = xi - mainCatch.getWidth() / 2;
+            int y = yi - mainCatch.getHeight() / 2;
+            canvas.drawBitmap(mainCatch, x, y, p);
+       // }
     }
-
 
     @Override
     public void run() {
+        if(isAlive) {
 
-        Boolean droite = xdroit > xf;
-
-
-        int deltax= (xf-xdroit);
-        int deltay = (yf-yi);
+            Boolean droite = xdroit > xf;
 
 
-        if (droite) {
-            xi += Math.ceil(deltax / 20.0);
-            yi +=Math.ceil(deltay / 20.0);
-        } else {
-            xi -= Math.ceil(deltax / 20.0) * -1;
-            yi +=Math.ceil(deltay / 20.0);
-        }
+            int deltax = (xf - xdroit);
+            int deltay = (yf - yi);
 
 
-       // yi = (int)(a*xi - b) ;
+            if (droite) {
+                xi += Math.ceil(deltax / 20.0);
+                yi += Math.ceil(deltay / 20.0);
+            } else {
+                xi -= Math.ceil(deltax / 20.0) * -1;
+                yi += Math.ceil(deltay / 20.0);
+            }
 
-        rect.set(xi, yi, xi + 100, yi + 100);
-        invalidate();
+            rect.set(xi, yi, xi + 100, yi + 100);
+            invalidate();
 
-
-       /* if (droite) {
-            if (xi >= xf) {
-                handler.postDelayed(this, 300);
+            if (yi < yf) {
+                handler.postDelayed(this, 30);
             } else {
                 terminer = true;
             }
+
+            if (terminer)
+                destFinale.ActionPerformed();
         }
-
-        if(!droite) {
-            if (xi <= xf) {
-                handler.postDelayed(this, 300);
-            } else {
-                terminer = true;
-            }
-        }
-        */
-
-        if(yi<yf){
-
-            handler.postDelayed(this, 30);
-        } else {
-            terminer = true;
-        }
-
-
-
-        if (terminer)
-            destFinale.ActionPerformed();
     }
 
 
@@ -148,6 +129,9 @@ public class CatchThread extends View implements  Runnable {
         destFinale = dest;
     }
 
-
-
+    public void setIsAlive(Boolean isAlive) {
+        this.isAlive = isAlive;
+        if(isAlive && !terminer)
+            handler.post(this);
+    }
 }

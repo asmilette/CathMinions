@@ -27,12 +27,14 @@ public class CreatingMinion implements Runnable {
     private List<Minion> minions;
     private Random rand;
 
-    private int creationDelay = 2500;
+    private int creationDelay = 3500;
     private OnTooMuchMinionsListener onTooMuchMinionsListener;
     private OnCreatedMinionListener onCreatedMinionListener;
 
     private final int MAX_SCORE_FOR_MINION = 5;
     private final int MAX_ALLOWED_MINIONS_IN_GAME = 15;
+
+    private boolean isAlive;
 
     public CreatingMinion(Context ctx, Handler handler, ViewGroup viewGroup, List<Minion> minions, Random rand) {
         this.ctx = ctx;
@@ -40,23 +42,26 @@ public class CreatingMinion implements Runnable {
         this.viewGroup = viewGroup;
         this.minions = minions;
         this.rand = rand;
+        isAlive = true;
         handler.post(this);
     }
 
     @Override
     public void run() {
-        Minion minion = new Minion(ctx, rand, rand.nextInt(MAX_SCORE_FOR_MINION));
-        //On ajoute le minions dans la liste
-        minions.add(minion);
-        //On ajoute le minions sur l'écran
-        viewGroup.addView(minion);
-        if(onCreatedMinionListener != null)
-            onCreatedMinionListener.onCreatedMinion();
+        if(isAlive) {
+            Minion minion = new Minion(ctx, rand, rand.nextInt(MAX_SCORE_FOR_MINION));
+            //On ajoute le minions dans la liste
+            minions.add(minion);
+            //On ajoute le minions sur l'écran
+            viewGroup.addView(minion);
+            if (onCreatedMinionListener != null)
+                onCreatedMinionListener.onCreatedMinion();
 
-        if(minions.size() < MAX_ALLOWED_MINIONS_IN_GAME)
-            handler.postDelayed(this, creationDelay);
-        else if(onTooMuchMinionsListener != null)
-            onTooMuchMinionsListener.onTooMuchMinions();
+            if (minions.size() < MAX_ALLOWED_MINIONS_IN_GAME)
+                handler.postDelayed(this, creationDelay);
+            else if (onTooMuchMinionsListener != null)
+                onTooMuchMinionsListener.onTooMuchMinions();
+        }
     }
     //Permet de modifier la vitesse de création des minions
     //Peut-être utilisé si on on attrape des bonus qui ralentit ou des malus qui augmente la vitesse
@@ -70,5 +75,11 @@ public class CreatingMinion implements Runnable {
 
     public void setOnCreatedMinionListener(OnCreatedMinionListener onCreatedMinionListener) {
         this.onCreatedMinionListener = onCreatedMinionListener;
+    }
+
+    public void setIsAlive(boolean isAlive) {
+        this.isAlive = isAlive;
+        if(isAlive)
+            handler.post(this);
     }
 }

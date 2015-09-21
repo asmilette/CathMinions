@@ -36,8 +36,7 @@ public class HandThread extends View implements Runnable {
     Rect rect;
     int x, y;
     double a, b;
-    Boolean terminer;
-    boolean isAlive;
+    boolean isAlive = true, terminer = false;
 
     OnFinalDestination destFinale;
 
@@ -68,7 +67,6 @@ public class HandThread extends View implements Runnable {
 
         rect = new Rect(xRect, yRect, xRect + wR, yRect + hR);
         isAlive = true;
-
     }
 
     // on Measure ///********************************************/
@@ -144,6 +142,7 @@ public class HandThread extends View implements Runnable {
                     terminer = true;
                 }
             }
+
             if (terminer)
                 destFinale.ActionPerformed(x, y);
         }

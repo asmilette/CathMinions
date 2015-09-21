@@ -31,12 +31,6 @@ public class MainActivity extends AppCompatActivity {
         bouttonOptions = (Button) findViewById(R.id.options);
         bouttonQuitter = (Button) findViewById(R.id.sortir);
 
-        //********Service music ouverture*******
-        demarreService = new Intent(MainActivity.this, MyService.class);
-        startService(demarreService);
-
-
-
         //*********On click des boutons*********
         boutonJouer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,8 +68,33 @@ public class MainActivity extends AppCompatActivity {
         bouttonQuitter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                android.os.Process.killProcess(android.os.Process.myPid());
+                //android.os.Process.killProcess(android.os.Process.myPid());
+                finish();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //********Service music ouverture*******
+        demarreService = new Intent(MainActivity.this, MyService.class);
+        startService(demarreService);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopService(demarreService);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

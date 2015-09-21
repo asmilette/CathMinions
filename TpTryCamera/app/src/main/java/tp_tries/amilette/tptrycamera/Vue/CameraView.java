@@ -2,11 +2,9 @@ package tp_tries.amilette.tptrycamera.Vue;
 
 import android.content.Context;
 import android.hardware.Camera;
-import android.os.Handler;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.widget.FrameLayout;
 
 import java.io.IOException;
 
@@ -14,17 +12,13 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
 
     private SurfaceHolder mHolder;
     private Camera mCamera;
-    Handler handler;
     Context ctx;
 
 
-    public CameraView(Context context, Camera camera){
+    public CameraView(Context context){
         super(context);
 
         this.ctx = context;
-        this.handler = handler;
-        mCamera = camera;
-        mCamera.setDisplayOrientation(90);
         //get the holder and set this class as the callback, so we can get camera data here
         mHolder = getHolder();
         mHolder.addCallback(this);
@@ -35,8 +29,16 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
         try{
             //when the surface is created, we can set the camera to draw images in this surfaceholder
-            mCamera.setPreviewDisplay(surfaceHolder);
-            mCamera.startPreview();
+            try{
+                mCamera = Camera.open();//you can use open(int) to use different cameras
+                mCamera.setDisplayOrientation(90);
+            } catch (Exception e){
+                Log.d("ERROR", "Failed to get camera: " + e.getMessage());
+            }
+            if(mCamera != null) {
+                mCamera.setPreviewDisplay(surfaceHolder);
+                mCamera.startPreview();
+            }
         } catch (IOException e) {
             Log.d("ERROR", "Camera error on surfaceCreated " + e.getMessage());
         }
@@ -69,9 +71,8 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
         //if you are unsing with more screens, please move this code your activity
         mCamera.stopPreview();
         mCamera.release();
+        mCamera = null;
     }
-
-
 }
 
 

@@ -15,11 +15,7 @@ public class MyService extends Service {
     Context ctx;
     boolean isStart = false;
 
-    public MyService() {
-        System.out.println("test");
-    }
-
-    @Override
+        @Override
     public void onCreate() {
         super.onCreate();
         ctx = this;
@@ -29,29 +25,31 @@ public class MyService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        //System.out.println("je suis dans onStatCommand");
-        if (!isStart) {
+        if(player == null)
             player = MediaPlayer.create(ctx, R.raw.minionwater);
+        if(!player.isPlaying())
             player.start();
-        } else {
-            player.stop();
-        }
-        isStart = !isStart;
 
         return super.onStartCommand(intent, flags, startId);
+    }
 
+    private void stopPlayer() {
+        if(player != null) {
+            player.stop();
+            player.release();
+        }
     }
 
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        //System.out.println("je suis dans onDestroy");
+        stopPlayer();
+        System.out.println("Destroy Service");
     }
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
         return null;
     }
 }

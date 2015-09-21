@@ -37,10 +37,9 @@ public class MinionsPrison extends View  {
     Paint p;
 
 
-    public MinionsPrison(Context ctx, Handler handler, ArrayList<Minion> minions) {
+    public MinionsPrison(Context ctx, ArrayList<Minion> minions) {
         super(ctx);
 
-        this.handler = handler;
         this.minions = minions;
         this.xi = 0;
         this.yi = 0;

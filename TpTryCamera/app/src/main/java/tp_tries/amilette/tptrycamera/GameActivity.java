@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,12 +16,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import tp_tries.amilette.tptrycamera.Thread.CameraThread;
 import tp_tries.amilette.tptrycamera.Thread.CatchThread;
 import tp_tries.amilette.tptrycamera.Thread.CreatingMinion;
 import tp_tries.amilette.tptrycamera.Thread.HandThread;
 import tp_tries.amilette.tptrycamera.Thread.MinionsPrison;
 import tp_tries.amilette.tptrycamera.Thread.MovingMinion;
+import tp_tries.amilette.tptrycamera.Vue.CameraView;
 import tp_tries.amilette.tptrycamera.entite.HighScore;
 import tp_tries.amilette.tptrycamera.entite.HighScoreDialog;
 import tp_tries.amilette.tptrycamera.entite.Minion;
@@ -59,7 +58,6 @@ public class GameActivity extends Activity
     private int score = 0;
     private boolean isGameOver = false;
 
-    private Handler handlerCatch;
     private CatchThread c;
     private Boolean catchActiver;
     private Boolean catchTerminier;
@@ -67,7 +65,6 @@ public class GameActivity extends Activity
     private MovingMinion movingMinion;
     private CreatingMinion creatingMinion;
     private HandThread p;
-    private CameraThread cameraThread;
 
     //*****************OnCreate**************
     @Override
@@ -84,80 +81,52 @@ public class GameActivity extends Activity
         prison = (FrameLayout) findViewById(R.id.prison);
 
         //*******Thread Camera
-        cameraThread = new CameraThread(ctx, fl, handler);
-        handler.post(cameraThread);
-
+        fl.addView(new CameraView(ctx));
         //*****Minion*****
         initMinions();
-
         //*****Thread Main****
         p = new HandThread(this, handler);
+        //Creation objet thread de la CatchThread (catch)
+        c = new CatchThread(ctx, handler);
         /***** Minion ******/
         ff.addView(p);
+        ff.addView(c);
 
-
-
-        //TODO Il faut désactivé la main, lorsque le jeu est terminé
         p.setDestFinale(new OnFinalDestination() {
             @Override
             public void ActionPerformed() {
-
             }
 
             @Override
             public void ActionPerformed(int x, int y) {
                 int i = 0;
                 for (Minion minion : minions) {
-                    i++;
-                    //Log.v("Minions", "--------------------------------------------");
-                    /*String str = String.format("No. %1$d,  X: %2$d, Y: %3$d, Width: %4$d, Height: %5$d"
-                            ,i
-                            ,minion.getLeft()
-                            ,minion.getTop()
-                            ,minion.getWidth()
-                            ,minion.getHeight());
-                    Log.v("Minions", "minion"+str);
-                    String str2 = String.format("X: %1$d, Y: %2$d", x, y);
-                    Log.v("Minions", "Main"+str2);*/
-
-                    if (minion.isAlive() && x >= minion.getLeft()
+                     if (minion.isAlive() && x >= minion.getLeft()
                             && x < minion.getWidth() + minion.getLeft()
                             && y >= minion.getTop()
                             && y < minion.getTop() + minion.getHeight()) {
 
-
-                        //Log.v("Minions", "Minions attrape");
                         minion.setIsAlive(false);
                         score += minion.getPoints();
 
-                        //Creation objet thread de la CatchThread (catch)
-                        c = new CatchThread(ctx, x, y, handler);
-                        handlerCatch = handler;
                         p.setVisibility(View.INVISIBLE);
-                        //ff.addView(catch);
-                        ff.addView(c);
-                        handler.post(c);
-                        prison.addView(new MinionsPrison(ctx, handler, minions));
-
+                        c.setVisibility(View.VISIBLE);
+                        c.startCatch(x, y);
+                        prison.addView(new MinionsPrison(ctx, minions));
 
                         c.setDestFinale(new OnFinalDestination() {
                             @Override
                             public void ActionPerformed() {
+                                c.setVisibility(View.INVISIBLE);
                                 p.setVisibility(View.VISIBLE);
                             }
 
-                        
                             @Override
                             public void ActionPerformed(int x, int y) {
                             }
 
                         });
-
-
-
                     }
-
-
                 }
             }
         });
@@ -168,8 +137,7 @@ public class GameActivity extends Activity
         btn_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(GameActivity.this, MainActivity.class);
-                startActivity(intent);
+                finish();
 
             }
         });
@@ -193,7 +161,6 @@ public class GameActivity extends Activity
                         String[] bgs = res.getStringArray(R.array.bg);
                         switch (i) {
                             case (0):
-
                                 img_bg.setVisibility(View.VISIBLE);
                                 img_bg.setBackgroundResource(R.drawable.bg_simpson);
                                 break;
@@ -229,7 +196,7 @@ public class GameActivity extends Activity
         creatingMinion = new CreatingMinion(ctx, handler, ff, minions, rand);
         //On ajout l'écouteur pour gérer l'évènement lorsqu'il y a trop de minions
         creatingMinion.setOnTooMuchMinionsListener(this);
-        //On ajout l'écouteur pour gérer l'év<nement lorsqu'il y a un minion de créer
+        //On ajout l'écouteur pour gérer l'évènement lorsqu'il y a un minion de créer
         creatingMinion.setOnCreatedMinionListener(this);
         //le déplacements des minions
         movingMinion = new MovingMinion(this, handler, minions);
@@ -237,6 +204,7 @@ public class GameActivity extends Activity
 
     private void gameOver(boolean isSuccess) {
         //Gère l'ajout et la mise à jour de la BD pour les scores
+        stopThread();
         gestionHighScore();
     }
 
@@ -275,7 +243,6 @@ public class GameActivity extends Activity
                     highScoreToRegister = null;
                 }
             });
-
             dialog.show();
         }
     }
@@ -288,16 +255,42 @@ public class GameActivity extends Activity
             HighScoreManager.update(ctx, highScoreToRegister);
     }
 
+    private void stopThread() {
+        movingMinion.setIsAlive(false);
+        creatingMinion.setIsAlive(false);
+        p.setIsAlive(false);
+        c.setIsAlive(false);
+    }
+
+    private void startThread() {
+        movingMinion.setIsAlive(true);
+        creatingMinion.setIsAlive(true);
+        p.setIsAlive(true);
+        c.setIsAlive(true);
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
-        movingMinion.setIsAlive(false);
+        //Désactivation des threads
+        stopThread();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        movingMinion.setIsAlive(true);
+        //Ré-activation des threads
+        startThread();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     @Override

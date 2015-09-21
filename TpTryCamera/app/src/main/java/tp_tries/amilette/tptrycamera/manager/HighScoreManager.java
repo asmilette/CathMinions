@@ -45,23 +45,13 @@ public class HighScoreManager {
         return isSucces;
     }
 
-    //Permet de suppimer un pointage en particulier (Voir nécessité plus tard)
-    public static boolean remove(Context ctx, HighScore highScore) {
-        SQLiteDatabase db = BDConnection.getBD(ctx);
-        String whereClause = GestionBD.HIGH_SCORE__ID + " = ?";
-        String[] whereArgs = {String.valueOf(highScore.getId())};
-        boolean isSucces = db.delete(GestionBD.HIGH_SCORE__TABLE__NAME, whereClause, whereArgs) > 0;
-        db.close();
-        return isSucces;
-    }
-
     //Retourne une liste de de pointage trié par ordre croissant
     public static List<HighScore> getAll(Context ctx) {
         ArrayList<HighScore> highScores = new ArrayList<>();
         SQLiteDatabase db = BDConnection.getBD(ctx);
         Cursor c = db.query(GestionBD.HIGH_SCORE__TABLE__NAME
                 , new String[] { GestionBD.HIGH_SCORE__ID, GestionBD.HIGH_SCORE__SCORE, GestionBD.HIGH_SCORE__NAME}
-                , null, null, null, null, GestionBD.HIGH_SCORE__ID + " ASC");
+                , null, null, null, null, GestionBD.HIGH_SCORE__ID + " DESC");
         while(c.moveToNext()) {
             highScores.add(new HighScore(
                 c.getInt(0)
