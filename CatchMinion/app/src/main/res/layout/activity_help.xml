@@ -36,9 +36,10 @@
                 android:layout_weight="1"/>
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:text="La main vous permet d'attraper les minions.Pour la deplacer il vous suffit de toucher l'ecran sur la partie de jeu et elle vous suivra immediatement."/>
+                android:text="@string/help_hand"
+                android:gravity="center_vertical|center_horizontal" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -48,9 +49,10 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="La main se referme sur les minions des que vous les toucher.Les minions sont constament en mouvement,il vous faut prevoir le prochains endroit ou va se trouver le minions pour le capturer."/>
+                    android:text="@string/help_hand_catch"
+                    android:gravity="center_vertical|center_horizontal" />
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -71,9 +73,10 @@
                     android:layout_weight="2"/>
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Une fois les minions capturer, ils sont mis en prison."/>
+                    android:text="@string/help_minion_jail"
+                    android:gravity="center_vertical|center_horizontal" />
             </LinearLayout>
         </LinearLayout>
 </LinearLayout>

@@ -24,4 +24,7 @@
     <string name="highscore_header_score">score</string>
     <string name="btn_menu">Menu</string>
     <string name="title_dialog_background">Background</string>
+    <string name="help_hand">Use the hand to catch the minions. Touch the screen and the hand will go to the point you touch.</string>
+    <string name="help_hand_catch">The hand catch the minon as soon they arrived at there position, but they are always on the move. You have to predict there next location to get them.</string>
+    <string name="help_minion_jail">When you catch a minion, he goes in jail.</string>
 </resources>

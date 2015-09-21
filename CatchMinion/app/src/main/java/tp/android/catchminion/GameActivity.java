@@ -20,7 +20,7 @@ import java.util.Random;
 import tp.android.catchminion.Thread.CatchThread;
 import tp.android.catchminion.Thread.CreatingMinion;
 import tp.android.catchminion.Thread.HandThread;
-import tp.android.catchminion.Thread.MinionsPrison;
+import tp.android.catchminion.entite.MinionsPrison;
 import tp.android.catchminion.Thread.MovingMinion;
 import tp.android.catchminion.Vue.CameraView;
 import tp.android.catchminion.entite.HighScore;

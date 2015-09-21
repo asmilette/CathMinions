@@ -1,4 +1,4 @@
-package tp.android.catchminion.Thread;
+package tp.android.catchminion.entite;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -58,7 +58,7 @@ public class MinionsPrison extends View  {
     @Override
     protected void onDraw(Canvas canvas) {
         // canvas.drawRect(rect, p);
-        int nbp = column*minionPrison.getWidth();
+        int nbp = column*minionPrison.getWidth()/2;
         //si le minions arrive jusqu au bout de la prison
 
         if(nbp > wScreen) {
@@ -66,8 +66,8 @@ public class MinionsPrison extends View  {
             column = row;
         }
 
-        int x = column * minionPrison.getWidth();
-        int y = row * 10;
+        int x = column * minionPrison.getWidth()/2;
+        int y = row * minionPrison.getHeight()/2;
 
         column++;
 
