@@ -20,4 +20,7 @@
     <string name="main_btn_quit">Quit</string>
     <string name="highscore_no_highscore">You have no saved highscore.</string>
     <string name="menu_highscore_clearHighscore">Clear highscore</string>
+    <string name="title_activity_video_enter">VideoEnter</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>
