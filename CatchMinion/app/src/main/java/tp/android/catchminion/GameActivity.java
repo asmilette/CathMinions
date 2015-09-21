@@ -218,6 +218,8 @@ public class GameActivity extends Activity
         //Gère l'ajout et la mise à jour de la BD pour les scores
         stopThread();
         gestionHighScore();
+        MinionsPrison.resetPrisonMinion();
+        ff.removeAllViews();
     }
 
     private void gestionHighScore() {

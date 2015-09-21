@@ -50,6 +50,12 @@ public class MinionsPrison extends View  {
         p.setColor(Color.BLACK);
     }
 
+    public static void resetPrisonMinion() {
+        nbMinions = 0;
+        column = 0;
+        row = 0;
+    }
+
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
