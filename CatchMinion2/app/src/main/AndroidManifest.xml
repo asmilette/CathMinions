@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="tp.android.catchMinion" >
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature
+        android:name="android.hardware.camera.front"
+        android:required="false" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/minions"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="tp.android.catchMinion.MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="tp.android.catchMinion.GameActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="tp.android.catchMinion.HighScoreActivity"
+            android:label="@string/title_activity_high_score"
+            android:parentActivityName="tp.android.catchMinion.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="tp.android.catchMinion.MainActivity" />
+        </activity>
+        <activity
+            android:name="tp.android.catchMinion.HelpActivity"
+            android:label="@string/app_name"
+            android:parentActivityName="tp.android.catchMinion.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="tp.android.catchMinion.MainActivity" />
+        </activity>
+
+        <service
+            android:name="tp.android.catchMinion.services.MyService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+
+    </application>
+
+</manifest>
