@@ -19,7 +19,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="tp.android.catchminion.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,12 +29,14 @@
         </activity>
         <activity
             android:name="tp.android.catchminion.GameActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="tp.android.catchminion.HighScoreActivity"
             android:label="@string/title_activity_high_score"
-            android:parentActivityName="tp.android.catchminion.MainActivity" >
+            android:parentActivityName="tp.android.catchminion.MainActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="tp.android.catchminion.MainActivity" />
@@ -41,7 +44,8 @@
         <activity
             android:name="tp.android.catchminion.HelpActivity"
             android:label="@string/app_name"
-            android:parentActivityName="tp.android.catchminion.MainActivity" >
+            android:parentActivityName="tp.android.catchminion.MainActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="tp.android.catchminion.MainActivity" />

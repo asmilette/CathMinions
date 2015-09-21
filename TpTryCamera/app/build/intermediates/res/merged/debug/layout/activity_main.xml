@@ -1,0 +1,71 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/Vue"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#03224C"
+    tools:context=".MainActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_weight="1">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/minions"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:gravity="center_horizontal">
+
+        <Button
+            android:id="@+id/jouer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#CECECE"
+            android:text="@string/main_btn_play"/>
+
+        <Button
+            android:id="@+id/options"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#9E9E9E"
+            android:text="@string/main_btn_options"/>
+
+        <Button
+            android:id="@+id/aide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#C1BFB1"
+            android:text="@string/main_btn_help"/>
+
+        <Button
+            android:id="@+id/score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#CECECE"
+            android:text="@string/main_btn_score"/>
+
+        <Button
+        android:id="@+id/sortir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+            android:background="#9E9E9E"
+        android:text="@string/main_btn_quit"/>
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
+<!-- From: file:/C:/dev/android/tp/TpTryCamera/app/src/main/res/layout/activity_main.xml -->

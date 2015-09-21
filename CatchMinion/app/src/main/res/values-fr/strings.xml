@@ -24,7 +24,7 @@
     <string name="highscore_header_score">Pointage</string>
     <string name="btn_menu">Menu</string>
     <string name="title_dialog_background">Arrière-plan</string>
-    <string name="help_hand">La main vous permet d'attraper les minions. Pour la deplacer il vous suffit de toucher l'ecran sur la partie de jeu et elle vous suivra immediatement.</string>
+    <string name="help_hand">La main vous permet d\'attraper les minions. Pour la deplacer il vous suffit de toucher l\'ecran sur la partie de jeu et elle vous suivra immediatement.</string>
     <string name="help_hand_catch">La main se referme sur les minions des que vous les toucher.Les minions sont constament en mouvement,il vous faut prevoir le prochains endroit ou va se trouver le minions pour le capturer.</string>
     <string name="help_minion_jail">Une fois les minions capturer, ils sont mis en prison.</string>
 </resources>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="tp_tries.amilette.tptrycamera"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="10"
+        android:targetSdkVersion="23" />
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature
+        android:name="android.hardware.camera.front"
+        android:required="false" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/minions"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="tp_tries.amilette.tptrycamera.MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="tp_tries.amilette.tptrycamera.GameActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="tp_tries.amilette.tptrycamera.HighScoreActivity"
+            android:label="@string/title_activity_high_score"
+            android:parentActivityName="tp_tries.amilette.tptrycamera.MainActivity"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="tp_tries.amilette.tptrycamera.MainActivity" />
+        </activity>
+        <activity
+            android:name="tp_tries.amilette.tptrycamera.HelpActivity"
+            android:label="@string/app_name"
+            android:parentActivityName="tp_tries.amilette.tptrycamera.MainActivity"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="tp_tries.amilette.tptrycamera.MainActivity" />
+        </activity>
+        <activity
+            android:name="tp_tries.amilette.tptrycamera.OptionActivity"
+            android:label="@string/app_name"
+            android:parentActivityName="tp_tries.amilette.tptrycamera.MainActivity"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="tp_tries.amilette.tptrycamera.MainActivity" />
+        </activity>
+
+        <service
+            android:name="tp_tries.amilette.tptrycamera.services.MyService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+
+        <activity
+            android:name="tp_tries.amilette.tptrycamera.VideoEnter"
+            android:label="@string/title_activity_video_enter"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
